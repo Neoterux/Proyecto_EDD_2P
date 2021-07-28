@@ -3,13 +3,14 @@ plugins {
     id 'application'
     id 'org.jetbrains.kotlin.jvm' version '1.5.21'
     id 'org.openjfx.javafxplugin' version '0.0.10'
+    id 'org.sonarqube' version '3.3'
 }
 
 group 'com.neoterux'
 version '1.0-SNAPSHOT'
 
 //deps version definitions
-ext.logbackver = '1.2.4'
+ext.logbackver = '1.2.5'
 ext.slf4jver = '1.7.30'
 
 repositories {
@@ -36,13 +37,17 @@ java {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib"
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.21'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
     implementation "ch.qos.logback:logback-classic:$logbackver"
     implementation "com.github.neoterux:tda:main-SNAPSHOT"
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "SuperTickTakToe"
+    }
 }
 
 test {
