@@ -4,3 +4,6 @@
 
 /sonarlint/
 /sonarlint/**
+runConfigurations.xml
+sonarlint.xml
+sonarlint-state.xml
