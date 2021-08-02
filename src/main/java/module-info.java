@@ -9,7 +9,9 @@ module SuperTikTakToe.main {
     requires org.slf4j;
     requires logback.core;
 
-    opens com.neoterux.sttkoe to javafx.fxml, javafx.controls, logback.classic, org.slf4j;
-
     exports com.neoterux.sttkoe;
+    exports com.neoterux.sttkoe.view.controllers to javafx.fxml, javafx.graphics;
+
+    opens com.neoterux.sttkoe to javafx.fxml, javafx.controls, logback.classic, org.slf4j, javafx.graphics;
+    opens com.neoterux.sttkoe.view.controllers to javafx.fxml, logback.classic, org.slf4j, javafx.graphics;
 }

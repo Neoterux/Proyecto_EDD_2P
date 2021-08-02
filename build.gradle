@@ -38,6 +38,8 @@ java {
 
 dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.21'
+    implementation 'io.reactivex:rxjavafx:2.0.2'
+    implementation 'io.reactivex.rxjava3:rxjava:3.0.13'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
     implementation "ch.qos.logback:logback-classic:$logbackver"
