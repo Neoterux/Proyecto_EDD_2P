@@ -6,19 +6,19 @@ import java.util.PriorityQueue;
 
 public class Tree<V> {
     private TreeNode<V> root;
-    private Comparator<V> cmp;
+    private Comparator<Tree<V>> cmp;
 
     public Tree(TreeNode<V> root){
         this.root = root;
     }
 
-    private void initializeChildren(Comparator cmp){
-        root.setChildren(new PriorityQueue<>(cmp));
+    private void initializeChildren(){
+        root.setChildren(new PriorityQueue<>(this.cmp));
     }
 
-    public void setCmp(Comparator<V> cmp) {
+    public void setCmp(Comparator<Tree<V>> cmp) {
         this.cmp = cmp;
-        initializeChildren(cmp);
+        initializeChildren();
     }
 
     public TreeNode<V> getRoot() {
