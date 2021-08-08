@@ -45,7 +45,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="291.0" spacing="20.0">
                <children>
-                  <Text fill="WHITE" opacity="0.36" strokeType="OUTSIDE" strokeWidth="0.0" text="Elige tu símbolo:" textAlignment="CENTER" wrappingWidth="138.025390625">
+                  <Text fx:id="txtSymbol" disable="true" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Elige tu símbolo:" textAlignment="CENTER" wrappingWidth="138.025390625">
                      <font>
                         <Font name="MT Extra" size="20.0" />
                      </font>
@@ -58,12 +58,12 @@
             </HBox>
             <HBox alignment="CENTER" disable="true" prefHeight="100.0" prefWidth="291.0" spacing="20.0">
                <children>
-                  <Text fill="WHITE" opacity="0.36" strokeType="OUTSIDE" strokeWidth="0.0" text="Contrincante elige tu simbolo:" textAlignment="CENTER" wrappingWidth="138.025390625">
+                  <Text fx:id="txtSymbolOponent" disable="true" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Contrincante elige tu simbolo:" textAlignment="CENTER" wrappingWidth="138.025390625">
                      <font>
                         <Font name="MT Extra" size="20.0" />
                      </font>
                   </Text>
-                  <ChoiceBox fx:id="symbolEnemy" prefWidth="150.0" />
+                  <ChoiceBox fx:id="symbolEnemy" disable="true" prefWidth="150.0" />
                </children>
                <padding>
                   <Insets right="10.0" />
