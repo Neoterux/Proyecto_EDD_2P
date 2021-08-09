@@ -10,6 +10,7 @@ public class TreeNode<V> {
     public TreeNode(V value){
         this.content = value;
     }
+    public TreeNode(){}
 
     public PriorityQueue<Tree<V>> getChildren() {
         return children;
