@@ -1,6 +1,5 @@
 package com.neoterux.sttkoe.models.tree;
 
-import java.util.List;
 import java.util.PriorityQueue;
 
 public class TreeNode<V> {
@@ -28,10 +27,4 @@ public class TreeNode<V> {
         this.content = content;
     }
 
-
-    public void addChildren(List<V> list){
-        for (V value:list) {
-            this.children.add(new Tree<>(new TreeNode<>(value)));
-        }
-    }
 }

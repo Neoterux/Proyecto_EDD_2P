@@ -6,35 +6,38 @@ public class Table<T> {
 
     public Table(T[][] table){
         this.table = table;
+        this.utility = 1;
     }
-    public Table(){}
+    public Table(){
+        this.utility = 1;
+    }
 
     //Getting the number of rows available
-    private int utilityByRows(T oponentSymbol){
+    private int utilityByRows(T opponentSymbol){
         int count = 0;
         for (int i = 0; i < 3; i++) {
-            if (table[i][0] != oponentSymbol && table[i][1] != oponentSymbol && table[i][2] != oponentSymbol)
+            if (table[i][0] != opponentSymbol && table[i][1] != opponentSymbol && table[i][2] != opponentSymbol)
                 count++;
         }
         return count;
     }
 
     //Getting the number of columns available
-    private int utilityByColumns(T oponentSymbol){
+    private int utilityByColumns(T opponentSymbol){
         int count = 0;
         for (int i = 0; i < 3; i++) {
-            if (table[0][i] != oponentSymbol && table[1][i] != oponentSymbol && table[2][i] != oponentSymbol)
+            if (table[0][i] != opponentSymbol && table[1][i] != opponentSymbol && table[2][i] != opponentSymbol)
                 count++;
         }
         return count;
     }
 
     //Getting the number of diagonals available
-    private int utilityByDiagonals(T oponentSymbol){
-        if(table[1][1] == oponentSymbol) return 0;
+    private int utilityByDiagonals(T opponentSymbol){
+        if(table[1][1] == opponentSymbol) return 0;
         int count = 0;
-        if(table[0][0] != oponentSymbol && table[2][2] != oponentSymbol) count++;
-        if(table[2][0] != oponentSymbol && table[0][2] != oponentSymbol) count++;
+        if(table[0][0] != opponentSymbol && table[2][2] != opponentSymbol) count++;
+        if(table[2][0] != opponentSymbol && table[0][2] != opponentSymbol) count++;
         return count;
     }
 
@@ -69,6 +72,12 @@ public class Table<T> {
         setUtility(computer-human);
     }
 
+    /**
+     * Inserts a value into the position
+     * @param positionI Index i in matrix[i][j]
+     * @param positionJ Index j in matrix[i][j]
+     * @param value The value to be inserted
+     */
     public void insertValue(int positionI, int positionJ, T value){
         table[positionI][positionJ] = value;
     }

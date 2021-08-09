@@ -50,15 +50,21 @@ public final class App extends Application {
         table2.generateUtility("X", "0");
         System.out.println(table2.getUtility());
         */
+
+
+        //Para probar la generacion de los futuros movimientos
         String[][] t = new String[][]{{"-", "-", "-"}, {"X", "-", "-"}, {"-", "0", "-"}};
         Table<String> table = new Table<>(t);
-
-        table.printTable();
 
         Tree<Table<String>> tre = new Tree<>(new TreeNode<>(table));
 
         GameValidator gm = new GameValidator(tre);
-        gm.createTree();
+        gm.setComputerSymbol("X");
+        gm.setUserSymbol("0");
+        gm.initializeTree();
+        Table<String> tableFinal = gm.getBestOption().getRoot().getContent();
+        tableFinal.printTable();
+        System.out.println(tableFinal.getUtility());
     }
 
     public static void main(String[] args) {
