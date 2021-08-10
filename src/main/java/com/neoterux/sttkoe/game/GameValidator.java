@@ -51,6 +51,14 @@ public class GameValidator {
         return pq;
     }
 
+    //Reordering the children with utility
+    private void fixingChildren(PriorityQueue<Tree<Table<String>>> movements, Tree<Table<String>> movement, Comparator cmp){
+        PriorityQueue<Tree<Table<String>>> finalMovements = new PriorityQueue<>(cmp);
+        finalMovements.addAll(movements);
+
+        movement.getRoot().setChildren(finalMovements);
+    }
+
     public void setComputerSymbol(String computerSymbol) {
         this.computerSymbol = computerSymbol;
     }
@@ -60,7 +68,7 @@ public class GameValidator {
     }
 
     /**
-     * Creates a tree to initialize the game
+     * Creates a tree to initialize with actual status
      */
     public void initializeTree(){
         //Machine movements
@@ -76,22 +84,23 @@ public class GameValidator {
             for (Tree<Table<String>> userM: userMovements) {
                 userM.getRoot().getContent().generateUtility("X", "0");
             }
-            PriorityQueue<Tree<Table<String>>> finalUserMovements = new PriorityQueue<>(Comparator.comparingInt(e -> e.getRoot().getContent().getUtility()));
-            finalUserMovements.addAll(userMovements);
 
-            machM.getRoot().setChildren(finalUserMovements);
+            fixingChildren(userMovements, machM, (Comparator<Tree<Table<String>>>) (e1, e2) -> {
+                return e1.getRoot().getContent().getUtility() - e2.getRoot().getContent().getUtility();
+            });
 
             Tree<Table<String>> bestOption = machM.getChildrenByUtility();
             machM.getRoot().getContent().setUtility(bestOption.getRoot().getContent().getUtility());
         }
-        PriorityQueue<Tree<Table<String>>> finalMachineMovements = new PriorityQueue<>((Comparator<Tree<Table<String>>>) (e1, e2) -> {
+        fixingChildren(machineMovements, this.tree, (Comparator<Tree<Table<String>>>) (e1, e2) -> {
             return e2.getRoot().getContent().getUtility() - e1.getRoot().getContent().getUtility();
         });
-        finalMachineMovements.addAll(machineMovements);
-
-        tree.getRoot().setChildren(finalMachineMovements);
     }
 
+    /**
+     * Getting the best movement to the computer
+     * @return A tree with the best movement
+     */
     public Tree<Table<String>> getBestOption(){
         return tree.getChildrenByUtility();
     }
