@@ -1,5 +1,6 @@
 package com.neoterux.sttkoe.view.controllers;
 
+import com.neoterux.sttkoe.game.core.GameManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,11 +15,17 @@ public class GameViewController implements Initializable {
     private Text txtModalidad;
 
     MainViewController main;
+    
+    private GameManager manager;
+    
+    public GameViewController(GameManager manager){
+        this.manager = manager;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        Text modo = new Text(String.valueOf(main.getChoicePlay()));
-        txtModalidad.setText(txtModalidad.getText()+" "+modo.getText());
+//        Text modo = new Text(String.valueOf(main.getChoicePlay()));
+//        txtModalidad.setText(txtModalidad.getText()+" "+modo.getText());
     }
 
     void metodoListener(ActionEvent comenzarJuego){
