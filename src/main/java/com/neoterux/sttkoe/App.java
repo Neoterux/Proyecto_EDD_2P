@@ -1,5 +1,9 @@
 package com.neoterux.sttkoe;
 
+import com.neoterux.sttkoe.game.GameValidator;
+import com.neoterux.sttkoe.models.table.Table;
+import com.neoterux.sttkoe.models.tree.Tree;
+import com.neoterux.sttkoe.models.tree.TreeNode;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -31,6 +35,36 @@ public final class App extends Application {
         Scene rootScene = new Scene(rootParent);
         primaryStage.setScene(rootScene);
         primaryStage.show();
+        /* Para probar la generacion de utilidad de las tablas
+        String[][] t = new String[][]{{"-", "-", "-"}, {"X", "-", "-"}, {"-", "0", "-"}};
+        Table<String> table = new Table<>(t);
+        table.printTable();
+        table.generateUtility("X", "0");
+        System.out.println(table.getUtility());
+
+        System.out.println("");
+
+        String[][] t2 = new String[][]{{"-", "0", "-"}, {"-", "-", "-"}, {"-", "-", "X"}};
+        Table<String> table2 = new Table<>(t2);
+        table2.printTable();
+        table2.generateUtility("X", "0");
+        System.out.println(table2.getUtility());
+        */
+
+
+        //Para probar la generacion de los futuros movimientos
+        String[][] t = new String[][]{{"-", "-", "-"}, {"X", "-", "-"}, {"-", "0", "-"}};
+        Table<String> table = new Table<>(t);
+
+        Tree<Table<String>> tre = new Tree<>(new TreeNode<>(table));
+
+        GameValidator gm = new GameValidator(tre);
+        gm.setComputerSymbol("X");
+        gm.setUserSymbol("0");
+        gm.initializeTree();
+        Table<String> tableFinal = gm.getBestOption().getRoot().getContent();
+        tableFinal.printTable();
+        System.out.println(tableFinal.getUtility());
     }
 
     public static void main(String[] args) {

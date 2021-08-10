@@ -1,35 +1,32 @@
 package com.neoterux.sttkoe.models.tree;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.PriorityQueue;
-
 public class Tree<V> {
     private TreeNode<V> root;
-    private Comparator<Tree<V>> cmp;
+    private boolean isUsed;
 
     public Tree(TreeNode<V> root){
         this.root = root;
     }
+    public Tree(){}
 
-    private void initializeChildren(){
-        root.setChildren(new PriorityQueue<>(this.cmp));
+    public void setRoot(TreeNode<V> root) {
+        this.root = root;
     }
 
-    public void setCmp(Comparator<Tree<V>> cmp) {
-        this.cmp = cmp;
-        initializeChildren();
+    public void setIsUsed(boolean used) {
+        isUsed = used;
+    }
+
+    public boolean getIsUsed(){
+        return isUsed;
     }
 
     public TreeNode<V> getRoot() {
         return root;
     }
 
-    public void setChildren(List<V> list){
-        root.addChildren(list);
-    }
-
     public Tree<V> getChildrenByUtility(){
         return root.getChildren().peek();
     }
+
 }
