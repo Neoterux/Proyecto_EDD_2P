@@ -11,9 +11,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="373.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neoterux.sttkoe.view.controllers.MainViewController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="373.0" prefWidth="600.0" stylesheets="@../css/main.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neoterux.sttkoe.view.controllers.MainViewController">
    <children>
-      <ImageView fitHeight="376.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="imgBackground" fitHeight="376.0" fitWidth="600.0" opacity="0.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/fondoPrincipal.jpg" />
          </image>
@@ -71,7 +71,7 @@
             </HBox>
          </children>
       </VBox>
-      <Button fx:id="btnInicio" layoutX="75.0" layoutY="301.0" mnemonicParsing="false" onAction="#ComenzarJuego" prefHeight="44.0" prefWidth="146.0" text="¡COMENZAR!">
+      <Button fx:id="btnInicio" layoutX="48.0" layoutY="300.0" mnemonicParsing="false" onAction="#ComenzarJuego" prefHeight="44.0" prefWidth="175.0" text="¡COMENZAR!">
          <font>
             <Font name="System Bold Italic" size="19.0" />
          </font>
