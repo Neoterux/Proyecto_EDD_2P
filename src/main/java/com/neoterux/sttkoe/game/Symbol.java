@@ -5,5 +5,5 @@ package com.neoterux.sttkoe.game;
  */
 public enum Symbol {
     X,
-    O;
+    O
 }

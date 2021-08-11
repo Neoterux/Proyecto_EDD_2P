@@ -4,6 +4,7 @@ import com.neoterux.sttkoe.game.core.GameManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
 import java.net.URL;
@@ -13,6 +14,8 @@ public class GameViewController implements Initializable {
 
     @FXML
     private Text txtModalidad;
+    @FXML
+    private GridPane gameGrid;
 
     MainViewController main;
     

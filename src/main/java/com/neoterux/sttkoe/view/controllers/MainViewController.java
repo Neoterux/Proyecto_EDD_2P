@@ -13,6 +13,8 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -43,6 +45,12 @@ public class MainViewController implements Initializable {
 
     @FXML
     private ChoiceBox<Symbol> symbolEnemy;
+    
+    @FXML
+    private ImageView imgBackground;
+    
+    @FXML
+    private Pane root;
 
 //    public ChoiceBox<String> getChoicePlay() {
 //        return choicePlay;
