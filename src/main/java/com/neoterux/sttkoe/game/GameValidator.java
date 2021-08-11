@@ -8,13 +8,14 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class GameValidator {
-    private final Tree<Table<String>> tree;
+    private Tree<Table<String>> tree;
     private String computerSymbol;
     private String userSymbol;
 
     public GameValidator(Tree<Table<String>> tree){
         this.tree = tree;
     }
+    public GameValidator(){}
 
     //Create a table copy of tree
     private Table<String> createTableCopy(Tree<Table<String>> tree){
@@ -66,6 +67,10 @@ public class GameValidator {
     public void setUserSymbol(String userSymbol) {
         this.userSymbol = userSymbol;
     }
+
+    public String getComputerSymbol() { return computerSymbol; }
+
+    public String getUserSymbol() { return userSymbol; }
 
     /**
      * Creates a tree to initialize with actual status

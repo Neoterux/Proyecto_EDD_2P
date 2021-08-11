@@ -1,6 +1,7 @@
 package com.neoterux.sttkoe.view.controllers;
 
 import com.neoterux.sttkoe.game.GameTurnManager;
+import com.neoterux.sttkoe.game.GameValidator;
 import com.neoterux.sttkoe.game.Symbol;
 import com.neoterux.sttkoe.game.core.GameManager;
 import com.neoterux.sttkoe.game.core.GameMode;
@@ -87,7 +88,7 @@ public class MainViewController implements Initializable {
         FXMLLoader loader = AppUtils.loaderFrom("view/game_view.fxml");
         GameMode selectedMode = choicePlay.getValue();
         GameManager cGamemanager = new GameManager(selectedMode);
-        loader.setControllerFactory(cclass -> new GameViewController(cGamemanager));
+        loader.setControllerFactory(cclass -> new GameViewController(cGamemanager, createsGameValidator()));
         
         GameTurnManager tman = selectedMode.turnManager;
         tman.getHomePlayer().setPlayerSymbol(playerSymbol());
@@ -128,5 +129,12 @@ public class MainViewController implements Initializable {
         symbolEnemy.setItems(x);
         symbolPlayer.setOnAction(this::interchangeSymbol);
         choicePlay.setOnAction(this::metodoListener);
+    }
+
+    private GameValidator createsGameValidator(){
+        GameValidator gm = new GameValidator();
+        gm.setUserSymbol(playerSymbol().toString());
+        gm.setComputerSymbol(enemySymbol().toString());
+        return gm;
     }
 }
