@@ -1,22 +1,25 @@
 package com.neoterux.sttkoe.models.table;
 
-public class Table<T> {
-    private int utility;
-    private T table[][] = (T[][]) (new Object[3][3]);
+import com.neoterux.sttkoe.game.Symbol;
+import javafx.scene.layout.GridPane;
 
-    public Table(T[][] table){
-        this.table = table;
-        this.utility = 1;
+public class Table {
+    private int utility;
+    private GridPane gameGrid;
+
+    public Table(GridPane gameGrid){
+        this.gameGrid = gameGrid;
+        this.utility = 0;
     }
     public Table(){
-        this.utility = 1;
+        this.utility = 0;
     }
 
     //Getting the number of rows available
-    private int utilityByRows(T opponentSymbol){
+    private int utilityByRows(Symbol opponentSymbol){
         int count = 0;
         for (int i = 0; i < 3; i++) {
-            if (table[i][0] != opponentSymbol && table[i][1] != opponentSymbol && table[i][2] != opponentSymbol)
+            if (gameGrid.getChildren().get(i).get != opponentSymbol && table[i][1] != opponentSymbol && table[i][2] != opponentSymbol)
                 count++;
         }
         return count;
@@ -66,7 +69,7 @@ public class Table<T> {
      * @param computerSymbol The symbol the computer uses
      * @param humanSymbol The symbol the user uses
      */
-    public void generateUtility(T computerSymbol, T humanSymbol){
+    public void generateUtility(Symbol computerSymbol, Symbol humanSymbol){
         int computer = utilityByRows(humanSymbol) + utilityByColumns(humanSymbol) + utilityByDiagonals(humanSymbol);
         int human = utilityByRows(computerSymbol) + utilityByColumns(computerSymbol) + utilityByDiagonals(computerSymbol);
         setUtility(computer-human);

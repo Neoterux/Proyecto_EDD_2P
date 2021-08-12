@@ -2,6 +2,7 @@ package com.neoterux.sttkoe.view.controllers;
 
 import com.neoterux.sttkoe.game.GameValidator;
 import com.neoterux.sttkoe.game.core.GameManager;
+import com.neoterux.sttkoe.models.table.Table;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -22,6 +23,7 @@ public class GameViewController implements Initializable {
     
     private GameManager manager;
     private GameValidator gm;
+    private Table table;
 
     public GameViewController(GameManager manager){
         this.manager = manager;
@@ -38,6 +40,7 @@ public class GameViewController implements Initializable {
 //        Text modo = new Text(String.valueOf(main.getChoicePlay()));
 //        txtModalidad.setText(txtModalidad.getText()+" "+modo.getText());
         manager.fillGrid(gameGrid);
+        table.setTable(gameGrid);
     }
 
     void metodoListener(ActionEvent comenzarJuego){

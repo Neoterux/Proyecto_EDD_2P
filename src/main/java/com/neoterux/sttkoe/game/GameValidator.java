@@ -8,17 +8,17 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class GameValidator {
-    private Tree<Table<String>> tree;
+    private Tree<Table> tree;
     private String computerSymbol;
     private String userSymbol;
 
-    public GameValidator(Tree<Table<String>> tree){
+    public GameValidator(Tree<Table> tree){
         this.tree = tree;
     }
     public GameValidator(){}
 
     //Create a table copy of tree
-    private Table<String> createTableCopy(Tree<Table<String>> tree){
+    private Table createTableCopy(Tree<Table> tree){
         String[][] currentMatrix = tree.getRoot().getContent().getTable();
         Table<String> t = new Table<>();
         String matrix[][] = new String[3][3];
@@ -87,7 +87,7 @@ public class GameValidator {
                 return e1.getRoot().getContent().getUtility() - e2.getRoot().getContent().getUtility();
             }, machM);
             for (Tree<Table<String>> userM: userMovements) {
-                userM.getRoot().getContent().generateUtility("X", "0");
+                userM.getRoot().getContent().generateUtility(computerSymbol, userSymbol);
             }
 
             fixingChildren(userMovements, machM, (Comparator<Tree<Table<String>>>) (e1, e2) -> {
