@@ -4,6 +4,7 @@ import com.neoterux.sttkoe.custom.data.ObservableData;
 import com.neoterux.sttkoe.game.Symbol;
 import com.neoterux.sttkoe.models.players.Player;
 import javafx.scene.control.Button;
+import javafx.scene.layout.GridPane;
 
 /**
  * <h1>Grid Button</h1>
@@ -27,6 +28,7 @@ public class GridButton extends Button {
     public GridButton(){
         currentSymbol = new ObservableData<>(null);
         configureSymbolListener();
+        getStyleClass().add("grid-button");
     }
     
     /**
@@ -59,7 +61,7 @@ public class GridButton extends Button {
     public boolean setSymbol(Symbol symbol){
         if(symbol == null || !isBlank())
             return false;
-        
+        this.getStyleClass().add("grid-button-filled");
         currentSymbol.set(symbol);
         return true;
     }
@@ -80,6 +82,14 @@ public class GridButton extends Button {
      */
     public Player getAsociatedPlayer () {
         return asociatedPlayer;
+    }
+    
+    
+    
+    public void fillAllGrid(){
+        GridPane.setFillHeight(this,true);
+        GridPane.setFillWidth(this,true);
+        this.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
     }
 }
 

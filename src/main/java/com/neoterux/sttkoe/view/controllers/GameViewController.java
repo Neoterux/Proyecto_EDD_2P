@@ -37,6 +37,7 @@ public class GameViewController implements Initializable {
         System.out.println(gm.getComputerSymbol());
 //        Text modo = new Text(String.valueOf(main.getChoicePlay()));
 //        txtModalidad.setText(txtModalidad.getText()+" "+modo.getText());
+        manager.fillGrid(gameGrid);
     }
 
     void metodoListener(ActionEvent comenzarJuego){
