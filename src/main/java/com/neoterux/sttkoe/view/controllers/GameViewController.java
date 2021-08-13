@@ -1,5 +1,6 @@
 package com.neoterux.sttkoe.view.controllers;
 
+import com.neoterux.sttkoe.custom.controls.GridButton;
 import com.neoterux.sttkoe.game.GameValidator;
 import com.neoterux.sttkoe.game.core.GameManager;
 import com.neoterux.sttkoe.models.table.Table;
@@ -40,7 +41,7 @@ public class GameViewController implements Initializable {
 //        Text modo = new Text(String.valueOf(main.getChoicePlay()));
 //        txtModalidad.setText(txtModalidad.getText()+" "+modo.getText());
         manager.fillGrid(gameGrid);
-        table.setTable(gameGrid);
+        table.setGameGrid((GridButton) gameGrid.getChildren());
     }
 
     void metodoListener(ActionEvent comenzarJuego){

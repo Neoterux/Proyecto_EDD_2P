@@ -1,11 +1,15 @@
 package com.neoterux.sttkoe.models.table;
 
+import com.neoterux.sttkoe.custom.controls.GridButton;
 import com.neoterux.sttkoe.game.Symbol;
 import javafx.scene.layout.GridPane;
 
+/**
+ * This class contains the game table and its utility
+ */
 public class Table {
     private int utility;
-    private GridPane gameGrid;
+    private GridButton gameGrid;
 
     public Table(GridPane gameGrid){
         this.gameGrid = gameGrid;
@@ -15,32 +19,38 @@ public class Table {
         this.utility = 0;
     }
 
-    //Getting the number of rows available
+    private Symbol getSymbolGridButton(int i){
+        GridButton gb = (GridButton) gameGrid.getChildren().get(i);
+        return gb.currentSymbol();
+    }
+
+    private boolean rowsAndColumns(Symbol opponentSymbol, int i, int m){
+        return getSymbolGridButton(i) != opponentSymbol && getSymbolGridButton(i+m) != opponentSymbol && getSymbolGridButton(i+m*2) != opponentSymbol;
+    }
+
     private int utilityByRows(Symbol opponentSymbol){
         int count = 0;
-        for (int i = 0; i < 3; i++) {
-            if (gameGrid.getChildren().get(i).get != opponentSymbol && table[i][1] != opponentSymbol && table[i][2] != opponentSymbol)
+        for (int i = 1; i <= 7; i += 3) {
+            if (rowsAndColumns(opponentSymbol, i, 1))
                 count++;
         }
         return count;
     }
 
-    //Getting the number of columns available
-    private int utilityByColumns(T opponentSymbol){
+    private int utilityByColumns(Symbol opponentSymbol){
         int count = 0;
-        for (int i = 0; i < 3; i++) {
-            if (table[0][i] != opponentSymbol && table[1][i] != opponentSymbol && table[2][i] != opponentSymbol)
+        for (int i = 1; i <= 3; i++) {
+            if (rowsAndColumns(opponentSymbol, i, 3))
                 count++;
         }
         return count;
     }
 
-    //Getting the number of diagonals available
-    private int utilityByDiagonals(T opponentSymbol){
-        if(table[1][1] == opponentSymbol) return 0;
+    private int utilityByDiagonals(Symbol opponentSymbol){
+        if(getSymbolGridButton(5) == opponentSymbol) return 0;
         int count = 0;
-        if(table[0][0] != opponentSymbol && table[2][2] != opponentSymbol) count++;
-        if(table[2][0] != opponentSymbol && table[0][2] != opponentSymbol) count++;
+        if(getSymbolGridButton(1) != opponentSymbol && getSymbolGridButton(9) != opponentSymbol) count++;
+        if(getSymbolGridButton(3) != opponentSymbol && getSymbolGridButton(7) != opponentSymbol) count++;
         return count;
     }
 
@@ -52,16 +62,16 @@ public class Table {
         return utility;
     }
 
-    public T[][] getTable() {
-        return table;
+    public GridPane getTable() {
+        return gameGrid;
     }
 
     public void setUtility(int utility) {
         this.utility = utility;
     }
 
-    public void setTable(T[][] table) {
-        this.table = table;
+    public void setGameGrid(GridButton gameGrid) {
+        this.gameGrid = gameGrid;
     }
 
     /**
@@ -77,12 +87,11 @@ public class Table {
 
     /**
      * Inserts a value into the position
-     * @param positionI Index i in matrix[i][j]
-     * @param positionJ Index j in matrix[i][j]
+     * @param position Index i in the GridPane
      * @param value The value to be inserted
      */
-    public void insertValue(int positionI, int positionJ, T value){
-        table[positionI][positionJ] = value;
+    public void insertValue(int position, Symbol value){
+
     }
 
     /**
