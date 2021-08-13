@@ -133,8 +133,8 @@ public class MainViewController implements Initializable {
 
     private GameValidator createsGameValidator(){
         GameValidator gm = new GameValidator();
-        gm.setUserSymbol(playerSymbol().toString());
-        gm.setComputerSymbol(enemySymbol().toString());
+        gm.setUserSymbol(playerSymbol());
+        gm.setComputerSymbol(enemySymbol());
         return gm;
     }
 }

@@ -1,5 +1,6 @@
 package com.neoterux.sttkoe.game;
 
+import com.neoterux.sttkoe.custom.controls.GridButton;
 import com.neoterux.sttkoe.models.table.Table;
 import com.neoterux.sttkoe.models.tree.Tree;
 import com.neoterux.sttkoe.models.tree.TreeNode;
@@ -9,16 +10,16 @@ import java.util.PriorityQueue;
 
 public class GameValidator {
     private Tree<Table> tree;
-    private String computerSymbol;
-    private String userSymbol;
+    private Symbol computerSymbol;
+    private Symbol userSymbol;
 
-    public GameValidator(Tree<Table> tree){
+    public GameValidator(Tree tree){
         this.tree = tree;
     }
     public GameValidator(){}
 
     //Create a table copy of tree
-    private Table createTableCopy(Tree<Table> tree){
+    /*private Table createTableCopy(Tree<Table> tree){
         String[][] currentMatrix = tree.getRoot().getContent().getTable();
         Table<String> t = new Table<>();
         String matrix[][] = new String[3][3];
@@ -29,21 +30,18 @@ public class GameValidator {
         }
         t.setTable(matrix);
         return t;
-    }
+    }*/
 
-    //Generates all possible movements
-    private PriorityQueue<Tree<Table<String>>> generateChildren(String symbol, Comparator cmp, Tree<Table<String>> tree){
-
-        PriorityQueue<Tree<Table<String>>> pq = new PriorityQueue<>(cmp);
-
-        String[][] matrix = tree.getRoot().getContent().getTable();
+    private PriorityQueue<Tree<Table>> generateChildren(Symbol symbol, Comparator cmp, Tree<Table> tree){
+        int count = 0;
+        PriorityQueue<Tree<Table>> pq = new PriorityQueue<>(cmp);
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                Table<String> table = createTableCopy(tree);
-                String currentValue = matrix[i][j];
-
-                if(currentValue == "-"){
+                count++;
+                GridButton btn = (GridButton) tree.getRoot().getContent().getTable().getChildren().get(count);
+                Table table = new Table(tree.getRoot().getContent().getTable());
+                if (btn.currentSymbol() == null) {
                     table.insertValue(i, j, symbol);
                     pq.add(new Tree<>(new TreeNode<>(table)));
                 }
@@ -53,51 +51,53 @@ public class GameValidator {
     }
 
     //Reordering the children with utility
-    private void fixingChildren(PriorityQueue<Tree<Table<String>>> movements, Tree<Table<String>> movement, Comparator cmp){
-        PriorityQueue<Tree<Table<String>>> finalMovements = new PriorityQueue<>(cmp);
+    private void fixingChildren(PriorityQueue<Tree<Table>> movements, Tree<Table> movement, Comparator cmp){
+        PriorityQueue<Tree<Table>> finalMovements = new PriorityQueue<>(cmp);
         finalMovements.addAll(movements);
 
         movement.getRoot().setChildren(finalMovements);
     }
 
-    public void setComputerSymbol(String computerSymbol) {
+    public void setComputerSymbol(Symbol computerSymbol) {
         this.computerSymbol = computerSymbol;
     }
 
-    public void setUserSymbol(String userSymbol) {
+    public void setUserSymbol(Symbol userSymbol) {
         this.userSymbol = userSymbol;
     }
 
-    public String getComputerSymbol() { return computerSymbol; }
+    public Symbol getComputerSymbol() { return computerSymbol; }
 
-    public String getUserSymbol() { return userSymbol; }
+    public Symbol getUserSymbol() { return userSymbol; }
+
+    public void setTree(Tree<Table> tree) {
+        this.tree = tree;
+    }
 
     /**
      * Creates a tree to initialize with actual status
      */
     public void initializeTree(){
-        //Machine movements
-        PriorityQueue<Tree<Table<String>>> machineMovements = generateChildren(computerSymbol, (Comparator<Tree<Table<String>>>) (e1, e2) -> {
+        PriorityQueue<Tree<Table>> machineMovements = generateChildren(computerSymbol, (Comparator<Tree<Table>>) (e1, e2) -> {
             return e2.getRoot().getContent().getUtility() - e1.getRoot().getContent().getUtility();
         }, this.tree);
 
-        for (Tree<Table<String>> machM: machineMovements) {
-            //User movements
-            PriorityQueue<Tree<Table<String>>> userMovements = generateChildren(userSymbol, (Comparator<Tree<Table<String>>>) (e1, e2) -> {
+        for (Tree<Table> machM: machineMovements) {
+            PriorityQueue<Tree<Table>> userMovements = generateChildren(userSymbol, (Comparator<Tree<Table>>) (e1, e2) -> {
                 return e1.getRoot().getContent().getUtility() - e2.getRoot().getContent().getUtility();
             }, machM);
-            for (Tree<Table<String>> userM: userMovements) {
+            for (Tree<Table> userM: userMovements) {
                 userM.getRoot().getContent().generateUtility(computerSymbol, userSymbol);
             }
 
-            fixingChildren(userMovements, machM, (Comparator<Tree<Table<String>>>) (e1, e2) -> {
+            fixingChildren(userMovements, machM, (Comparator<Tree<Table>>) (e1, e2) -> {
                 return e1.getRoot().getContent().getUtility() - e2.getRoot().getContent().getUtility();
             });
 
-            Tree<Table<String>> bestOption = machM.getChildrenByUtility();
+            Tree<Table> bestOption = machM.getChildrenByUtility();
             machM.getRoot().getContent().setUtility(bestOption.getRoot().getContent().getUtility());
         }
-        fixingChildren(machineMovements, this.tree, (Comparator<Tree<Table<String>>>) (e1, e2) -> {
+        fixingChildren(machineMovements, this.tree, (Comparator<Tree<Table>>) (e1, e2) -> {
             return e2.getRoot().getContent().getUtility() - e1.getRoot().getContent().getUtility();
         });
     }
@@ -106,7 +106,7 @@ public class GameValidator {
      * Getting the best movement to the computer
      * @return A tree with the best movement
      */
-    public Tree<Table<String>> getBestOption(){
+    public Tree<Table> getBestOption(){
         return tree.getChildrenByUtility();
     }
 }
