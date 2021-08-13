@@ -9,7 +9,7 @@ import javafx.scene.layout.GridPane;
  */
 public class Table {
     private int utility;
-    private GridButton gameGrid;
+    private GridPane gameGrid;
 
     public Table(GridPane gameGrid){
         this.gameGrid = gameGrid;
@@ -70,7 +70,7 @@ public class Table {
         this.utility = utility;
     }
 
-    public void setGameGrid(GridButton gameGrid) {
+    public void setGameGrid(GridPane gameGrid) {
         this.gameGrid = gameGrid;
     }
 
@@ -87,22 +87,23 @@ public class Table {
 
     /**
      * Inserts a value into the position
-     * @param position Index i in the GridPane
+     * @param positionI Index i in the GridPane
+     * @param positionJ Index j in the GridPane
      * @param value The value to be inserted
      */
-    public void insertValue(int position, Symbol value){
-
+    public void insertValue(int positionI, int positionJ, Symbol value){
+        GridButton gb = new GridButton();
+        gb.setSymbol(value);
+        gameGrid.add(gb, positionI, positionJ);
     }
 
     /**
      * Printing the table
      */
     public void printTable(){
-        for (T[] row: table) {
-            for (T colum: row) {
-                System.out.print(colum);
-            }
-            System.out.println("");
+        for (int i = 1; i < 10; i++) {
+            GridButton gb = (GridButton) gameGrid.getChildren().get(i);
+            System.out.println(gb.currentSymbol());
         }
     }
 }

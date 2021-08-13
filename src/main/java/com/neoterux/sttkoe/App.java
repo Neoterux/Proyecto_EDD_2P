@@ -31,20 +31,6 @@ public final class App extends Application {
         Scene rootScene = new Scene(rootParent);
         primaryStage.setScene(rootScene);
         primaryStage.show();
-
-        //Para probar la generacion de los futuros movimientos
-        /*String[][] t = new String[][]{{"-", "-", "-"}, {"X", "-", "-"}, {"-", "0", "-"}};
-        Table<String> table = new Table<>(t);
-
-        Tree<Table<String>> tre = new Tree<>(new TreeNode<>(table));
-
-        GameValidator gm = new GameValidator(tre);
-        gm.setComputerSymbol("X");
-        gm.setUserSymbol("0");
-        gm.initializeTree();
-        Table<String> tableFinal = gm.getBestOption().getRoot().getContent();
-        tableFinal.printTable();
-        System.out.println(tableFinal.getUtility());*/
     }
 
     public static void main(String[] args) {

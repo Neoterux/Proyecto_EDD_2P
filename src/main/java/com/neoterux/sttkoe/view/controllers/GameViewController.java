@@ -1,9 +1,10 @@
 package com.neoterux.sttkoe.view.controllers;
 
-import com.neoterux.sttkoe.custom.controls.GridButton;
 import com.neoterux.sttkoe.game.GameValidator;
 import com.neoterux.sttkoe.game.core.GameManager;
 import com.neoterux.sttkoe.models.table.Table;
+import com.neoterux.sttkoe.models.tree.Tree;
+import com.neoterux.sttkoe.models.tree.TreeNode;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,7 +25,9 @@ public class GameViewController implements Initializable {
     
     private GameManager manager;
     private GameValidator gm;
-    private Table table;
+
+    private Tree<Table> gameTree;
+    private Table gameTable;
 
     public GameViewController(GameManager manager){
         this.manager = manager;
@@ -36,12 +39,12 @@ public class GameViewController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println(gm.getUserSymbol());
-        System.out.println(gm.getComputerSymbol());
 //        Text modo = new Text(String.valueOf(main.getChoicePlay()));
 //        txtModalidad.setText(txtModalidad.getText()+" "+modo.getText());
         manager.fillGrid(gameGrid);
-        table.setGameGrid((GridButton) gameGrid.getChildren());
+
+        gameTable = new Table(gameGrid);
+        gameTree = new Tree<>(new TreeNode<>(gameTable));
     }
 
     void metodoListener(ActionEvent comenzarJuego){
