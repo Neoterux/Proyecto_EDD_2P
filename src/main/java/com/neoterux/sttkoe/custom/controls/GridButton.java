@@ -91,5 +91,40 @@ public class GridButton extends Button {
         GridPane.setFillWidth(this,true);
         this.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
     }
+    
+    /**
+     * Creates a copy of the current button, only superficial.
+     * Doesn't copy the listeners of the Symbol property, only value.
+     *
+     * @return a superficial copy of the Button.
+     */
+    public GridButton copy(){
+        GridButton copyButton = new GridButton();
+        copyButton.setAsociatedPlayer(this.asociatedPlayer);
+        copyButton.setSymbol(this.currentSymbol());
+        
+        return copyButton;
+    }
+    
+    @Override
+    public String toString () {
+        StringBuilder str = new StringBuilder("GridButton {");
+        str.append("associated player: ")
+                .append(this.asociatedPlayer)
+                .append("currentSymbol: ")
+                .append(this.currentSymbol());
+        return str.toString();
+    }
+    
+    @Override
+    public boolean equals (Object obj) {
+        if (obj == this)
+            return true;
+        if (obj instanceof GridButton){
+            GridButton temp = (GridButton) obj;
+            return temp.currentSymbol() == this.currentSymbol() && asociatedPlayer.equals(temp.asociatedPlayer);
+        }
+        return false;
+    }
 }
 

@@ -3,11 +3,12 @@ package com.neoterux.sttkoe.models.table;
 import com.neoterux.sttkoe.custom.controls.GridButton;
 import com.neoterux.sttkoe.game.Symbol;
 import javafx.scene.layout.GridPane;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * This class contains the game table and its utility
  */
-public class Table {
+public class Table implements Comparable<Table> {
     private int utility;
     private GridPane gameGrid;
 
@@ -53,7 +54,18 @@ public class Table {
         if(getSymbolGridButton(3) != opponentSymbol && getSymbolGridButton(7) != opponentSymbol) count++;
         return count;
     }
-
+    
+    /**
+     * Compares the utility of tables.
+     *
+     * @param o the table to compare
+     * @return 0 if utility is equals, < 0 if the utility is lower and > 0 if utility is higher.
+     */
+    @Override
+    public int compareTo (@NotNull Table o) {
+        return this.getUtility() - o.getUtility();
+    }
+    
     /**
      * Getting the table utility
      * @return Table utility

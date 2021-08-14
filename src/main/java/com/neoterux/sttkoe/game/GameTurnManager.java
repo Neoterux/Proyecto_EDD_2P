@@ -1,5 +1,7 @@
 package com.neoterux.sttkoe.game;
 
+import com.neoterux.sttkoe.custom.data.ObservableData;
+import com.neoterux.sttkoe.custom.data.ReadOnlyObservableData;
 import com.neoterux.sttkoe.models.players.Player;
 
 /**
@@ -10,6 +12,8 @@ public abstract class GameTurnManager {
     protected Player player1;
     
     protected Player player2;
+    
+    protected ObservableData<Player> currentPlayer;
 
     public static class PvPManager extends GameTurnManager {
 
@@ -42,7 +46,7 @@ public abstract class GameTurnManager {
     }
 
     private GameTurnManager(long turnDelay) {
-
+        this.currentPlayer = new ObservableData<>(null);
     }
     
     /**
@@ -61,5 +65,12 @@ public abstract class GameTurnManager {
      */
     public Player getVisitorPlayer(){
         return this.player2;
+    }
+    
+    /**
+     * Get the Inmutable observable data of the current player
+     */
+    public ReadOnlyObservableData<Player> getCurrentPlayer(){
+        return this.currentPlayer;
     }
 }

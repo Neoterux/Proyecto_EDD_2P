@@ -18,11 +18,16 @@ public class GameViewController implements Initializable {
 
     @FXML
     private Text txtModalidad;
+    
+    /**
+     * The grid that hold the tik tak toe game.
+     */
     @FXML
     private GridPane gameGrid;
-
-    MainViewController main;
     
+    /**
+     * The manager that would hold the turn logic.
+     */
     private GameManager manager;
     private GameValidator gm;
 
