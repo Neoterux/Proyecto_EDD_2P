@@ -9,15 +9,31 @@ import org.jetbrains.annotations.NotNull;
  * This class contains the game table and its utility
  */
 public class Table implements Comparable<Table> {
+    /**
+     * The utility of the current table
+     */
     private int utility;
+
+    /**
+     * The grid of the tik tak toe game
+     */
     private GridPane gameGrid;
 
+    /**
+     * Creates a new Table by the given gameGrid.
+     *
+     * @param gameGrid the grid of the tik tak toe game
+     */
     public Table(GridPane gameGrid){
         this.gameGrid = gameGrid;
         this.utility = 0;
     }
+
+    /**
+     * Creates a new empty table
+     */
     public Table(){
-        this.utility = 0;
+        this(null);
     }
 
     private Symbol getSymbolGridButton(int i){
