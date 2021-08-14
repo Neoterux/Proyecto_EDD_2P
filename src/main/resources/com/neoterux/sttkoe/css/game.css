@@ -1,0 +1,37 @@
+@font-face {
+    src: url("../fonts/ProFont_IIx_Nerd_Font.ttf");
+}
+
+
+
+.grid-button:hover{
+    -fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 75% , #FFF, green);
+    -fx-border-color: green;
+    -fx-background-insets: 5px;
+}
+
+.grid-button {
+    -fx-text-fill: black;
+    -fx-font-size: 75px;
+    -fx-font-weight: BOLD;
+    -fx-font-family: "ProFontIIx Nerd Font";
+    -fx-border-width: 2px;
+    -fx-border-color: green;
+    -fx-border-radius: 5px;
+
+}
+
+.grid-button-filled:hover{
+    -fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 75% , #FFF, #ff0000);
+    -fx-border-color: red;
+    -fx-background-insets: 5px;
+}
+
+
+
+.grid-pane {
+    -fx-border-radius: 5px;
+    -fx-border-width: 3px;
+    -fx-border-color: red;
+    -fx-background-color: radial-gradient(focus-distance -100% , center 100% 100% , radius 55% , #7cfc00, #ff0000);
+}

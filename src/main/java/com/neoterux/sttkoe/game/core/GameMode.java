@@ -33,4 +33,10 @@ public enum GameMode {
         this.gameModeName = name;
         this.turnManager = manager;
     }
+    
+    
+    @Override
+    public String toString () {
+        return gameModeName;
+    }
 }

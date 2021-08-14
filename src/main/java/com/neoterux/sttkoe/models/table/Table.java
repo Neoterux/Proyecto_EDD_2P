@@ -1,46 +1,71 @@
 package com.neoterux.sttkoe.models.table;
 
-public class Table<T> {
-    private int utility;
-    private T table[][] = (T[][]) (new Object[3][3]);
+import com.neoterux.sttkoe.custom.controls.GridButton;
+import com.neoterux.sttkoe.game.Symbol;
+import javafx.scene.layout.GridPane;
+import org.jetbrains.annotations.NotNull;
 
-    public Table(T[][] table){
-        this.table = table;
-        this.utility = 1;
+/**
+ * This class contains the game table and its utility
+ */
+public class Table implements Comparable<Table> {
+    private int utility;
+    private GridPane gameGrid;
+
+    public Table(GridPane gameGrid){
+        this.gameGrid = gameGrid;
+        this.utility = 0;
     }
     public Table(){
-        this.utility = 1;
+        this.utility = 0;
     }
 
-    //Getting the number of rows available
-    private int utilityByRows(T opponentSymbol){
+    private Symbol getSymbolGridButton(int i){
+        GridButton gb = (GridButton) gameGrid.getChildren().get(i);
+        return gb.currentSymbol();
+    }
+
+    private boolean rowsAndColumns(Symbol opponentSymbol, int i, int m){
+        return getSymbolGridButton(i) != opponentSymbol && getSymbolGridButton(i+m) != opponentSymbol && getSymbolGridButton(i+m*2) != opponentSymbol;
+    }
+
+    private int utilityByRows(Symbol opponentSymbol){
         int count = 0;
-        for (int i = 0; i < 3; i++) {
-            if (table[i][0] != opponentSymbol && table[i][1] != opponentSymbol && table[i][2] != opponentSymbol)
+        for (int i = 1; i <= 7; i += 3) {
+            if (rowsAndColumns(opponentSymbol, i, 1))
                 count++;
         }
         return count;
     }
 
-    //Getting the number of columns available
-    private int utilityByColumns(T opponentSymbol){
+    private int utilityByColumns(Symbol opponentSymbol){
         int count = 0;
-        for (int i = 0; i < 3; i++) {
-            if (table[0][i] != opponentSymbol && table[1][i] != opponentSymbol && table[2][i] != opponentSymbol)
+        for (int i = 1; i <= 3; i++) {
+            if (rowsAndColumns(opponentSymbol, i, 3))
                 count++;
         }
         return count;
     }
 
-    //Getting the number of diagonals available
-    private int utilityByDiagonals(T opponentSymbol){
-        if(table[1][1] == opponentSymbol) return 0;
+    private int utilityByDiagonals(Symbol opponentSymbol){
+        if(getSymbolGridButton(5) == opponentSymbol) return 0;
         int count = 0;
-        if(table[0][0] != opponentSymbol && table[2][2] != opponentSymbol) count++;
-        if(table[2][0] != opponentSymbol && table[0][2] != opponentSymbol) count++;
+        if(getSymbolGridButton(1) != opponentSymbol && getSymbolGridButton(9) != opponentSymbol) count++;
+        if(getSymbolGridButton(3) != opponentSymbol && getSymbolGridButton(7) != opponentSymbol) count++;
         return count;
     }
-
+    
+    /**
+     * Compares the utility of tables.
+     *
+     * @param o the table to compare
+     * @return 0 if utility is equals, < 0 if the utility is lower and > 0 if utility is higher.
+     */
+    @Override
+    public int compareTo (@NotNull Table o) {
+        return this.getUtility() - o.getUtility();
+    }
+    
     /**
      * Getting the table utility
      * @return Table utility
@@ -49,16 +74,16 @@ public class Table<T> {
         return utility;
     }
 
-    public T[][] getTable() {
-        return table;
+    public GridPane getTable() {
+        return gameGrid;
     }
 
     public void setUtility(int utility) {
         this.utility = utility;
     }
 
-    public void setTable(T[][] table) {
-        this.table = table;
+    public void setGameGrid(GridPane gameGrid) {
+        this.gameGrid = gameGrid;
     }
 
     /**
@@ -66,7 +91,7 @@ public class Table<T> {
      * @param computerSymbol The symbol the computer uses
      * @param humanSymbol The symbol the user uses
      */
-    public void generateUtility(T computerSymbol, T humanSymbol){
+    public void generateUtility(Symbol computerSymbol, Symbol humanSymbol){
         int computer = utilityByRows(humanSymbol) + utilityByColumns(humanSymbol) + utilityByDiagonals(humanSymbol);
         int human = utilityByRows(computerSymbol) + utilityByColumns(computerSymbol) + utilityByDiagonals(computerSymbol);
         setUtility(computer-human);
@@ -74,23 +99,23 @@ public class Table<T> {
 
     /**
      * Inserts a value into the position
-     * @param positionI Index i in matrix[i][j]
-     * @param positionJ Index j in matrix[i][j]
+     * @param positionI Index i in the GridPane
+     * @param positionJ Index j in the GridPane
      * @param value The value to be inserted
      */
-    public void insertValue(int positionI, int positionJ, T value){
-        table[positionI][positionJ] = value;
+    public void insertValue(int positionI, int positionJ, Symbol value){
+        GridButton gb = new GridButton();
+        gb.setSymbol(value);
+        gameGrid.add(gb, positionI, positionJ);
     }
 
     /**
      * Printing the table
      */
     public void printTable(){
-        for (T[] row: table) {
-            for (T colum: row) {
-                System.out.print(colum);
-            }
-            System.out.println("");
+        for (int i = 1; i < 10; i++) {
+            GridButton gb = (GridButton) gameGrid.getChildren().get(i);
+            System.out.println(gb.currentSymbol());
         }
     }
 }

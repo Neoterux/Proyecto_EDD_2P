@@ -1,0 +1,4 @@
+.root {
+    -fx-background-image: url("../images/main_background.png");
+    -fx-background-position: 0, 0;
+}
