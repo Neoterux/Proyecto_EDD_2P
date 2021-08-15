@@ -44,6 +44,8 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
     implementation "ch.qos.logback:logback-classic:$logbackver"
     implementation "com.github.neoterux:tda:main-SNAPSHOT"
+    implementation 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
 }
 
 sonarqube {

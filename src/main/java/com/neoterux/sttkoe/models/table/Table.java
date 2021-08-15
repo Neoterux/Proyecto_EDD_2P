@@ -3,20 +3,37 @@ package com.neoterux.sttkoe.models.table;
 import com.neoterux.sttkoe.custom.controls.GridButton;
 import com.neoterux.sttkoe.game.Symbol;
 import javafx.scene.layout.GridPane;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * This class contains the game table and its utility
  */
-public class Table {
+public class Table implements Comparable<Table> {
+    /**
+     * The utility of the current table
+     */
     private int utility;
+
+    /**
+     * The grid of the tik tak toe game
+     */
     private GridPane gameGrid;
 
+    /**
+     * Creates a new Table by the given gameGrid.
+     *
+     * @param gameGrid the grid of the tik tak toe game
+     */
     public Table(GridPane gameGrid){
         this.gameGrid = gameGrid;
         this.utility = 0;
     }
+
+    /**
+     * Creates a new empty table
+     */
     public Table(){
-        this.utility = 0;
+        this(null);
     }
 
     private Symbol getSymbolGridButton(int i){
@@ -53,7 +70,18 @@ public class Table {
         if(getSymbolGridButton(3) != opponentSymbol && getSymbolGridButton(7) != opponentSymbol) count++;
         return count;
     }
-
+    
+    /**
+     * Compares the utility of tables.
+     *
+     * @param o the table to compare
+     * @return 0 if utility is equals, < 0 if the utility is lower and > 0 if utility is higher.
+     */
+    @Override
+    public int compareTo (@NotNull Table o) {
+        return this.getUtility() - o.getUtility();
+    }
+    
     /**
      * Getting the table utility
      * @return Table utility
