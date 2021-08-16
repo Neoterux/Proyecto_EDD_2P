@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
  * This class is a thread that holds the IA algorithm for the TikTakToe game.
  */
 @Slf4j
-public class AIThread extends Thread{
+public class AIThread extends Thread {
 
     /**
      * Creates a new AI thread

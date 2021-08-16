@@ -16,6 +16,11 @@ public class PlayerSequence {
      * The index of the current player.
      */
     private int currentPlayerPosition;
+    
+    /**
+     * A listener when a player has changed
+     */
+    private PlayerChangeListener changeListener;
 
     /**
      * Creates a new sequence of the inserted players.
@@ -59,6 +64,8 @@ public class PlayerSequence {
      */
     public Player nextPlayer() {
         this.currentPlayerPosition = ++currentPlayerPosition % MAX_PLAYERS;
+        if (changeListener != null)
+            changeListener.doOnChange(getCurrent());
         return getCurrent();
     }
 
@@ -71,5 +78,17 @@ public class PlayerSequence {
     public boolean currentIsCpu(){
         return getCurrent().isCpu();
     }
-
+    
+    /**
+     * Seek the next player without generate a next Listener and change the internal state.
+     *
+     * @return the next player.
+     */
+    public Player seekNext() {
+        int idx = this.currentPlayerPosition + 1;
+        return players[idx % MAX_PLAYERS];
+    }
+    public void setChangeListener (PlayerChangeListener changeListener) {
+        this.changeListener = changeListener;
+    }
 }
