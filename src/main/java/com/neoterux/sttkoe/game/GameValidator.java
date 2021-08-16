@@ -5,6 +5,9 @@ import com.neoterux.sttkoe.models.table.Table;
 import com.neoterux.sttkoe.models.tree.Tree;
 import com.neoterux.sttkoe.models.tree.TreeComparator;
 import com.neoterux.sttkoe.models.tree.TreeNode;
+import com.neoterux.sttkoe.utils.TableUtils;
+import javafx.scene.Node;
+import javafx.scene.layout.GridPane;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,29 +44,37 @@ public class GameValidator {
     }
     public GameValidator(){}
 
-    //Create a table copy of tree
-    /*private Table createTableCopy(Tree<Table> tree){
-        String[][] currentMatrix = tree.getRoot().getContent().getTable();
-        Table<String> t = new Table<>();
-        String matrix[][] = new String[3][3];
+    private GridPane fillGridPaneWithGridButtons(GridPane gp, GridButton[][] gb){
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                matrix[i][j] = currentMatrix[i][j];
+                gp.add(gb[i][j], j, i);
             }
         }
-        t.setTable(matrix);
-        return t;
-    }*/
+        return gp;
+    }
+
+    private GridButton[][] getGridButtonOfGridPane(GridPane gp){
+        GridButton[][] gb = new GridButton[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                Node node = gp.getChildren().get(3*i + j + 1);
+                System.out.println(node);
+            }
+        }
+        return gb;
+    }
+
     private PriorityQueue<Tree<Table>> generateChildren(Symbol symbol, Comparator<Tree<Table>> cmp, Tree<Table> tree){
-        int count = 0;
         PriorityQueue<Tree<Table>> pq = new PriorityQueue<>(cmp);
+        GridButton[][] newGB = getGridButtonOfGridPane(tree.getRoot().getContent().getTable());
+        int count = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 count++;
-                GridButton btn = (GridButton) tree.getRoot().getContent().getTable().getChildren().get(count);
-                Table table = new Table(tree.getRoot().getContent().getTable());
-                if (btn.currentSymbol() == null) {
-                    table.insertValue(i, j, symbol);
+                GridButton[][] gb = TableUtils.copyTable(newGB);
+                Table table = new Table(fillGridPaneWithGridButtons(new GridPane(), gb));
+                if (gb[i][j].currentSymbol() == null) {
+                    table.insertValue(count, symbol);
                     pq.add(new Tree<>(new TreeNode<>(table)));
                 }
             }
@@ -71,8 +82,6 @@ public class GameValidator {
         return pq;
     }
 
-    //Reordering the children with utility
-    
     /**
      * Reorder the children by the given comparator, and append to the movement tree.
      *

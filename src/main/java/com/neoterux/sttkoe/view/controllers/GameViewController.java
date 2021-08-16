@@ -50,6 +50,10 @@ public class GameViewController implements Initializable {
 
         gameTable = new Table(gameGrid);
         gameTree = new Tree<>(new TreeNode<>(gameTable));
+        gm.setTree(gameTree);
+        gm.initializeTree();
+
+        gm.getBestOption().getRoot().getContent().printTable();
     }
 
     void metodoListener(ActionEvent comenzarJuego){

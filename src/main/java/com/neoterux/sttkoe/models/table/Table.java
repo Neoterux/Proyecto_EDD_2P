@@ -115,14 +115,13 @@ public class Table implements Comparable<Table> {
 
     /**
      * Inserts a value into the position
-     * @param positionI Index i in the GridPane
-     * @param positionJ Index j in the GridPane
+     * @param position Index i in the GridPane
      * @param value The value to be inserted
      */
-    public void insertValue(int positionI, int positionJ, Symbol value){
+    public void insertValue(int position, Symbol value){
         GridButton gb = new GridButton();
         gb.setSymbol(value);
-        gameGrid.add(gb, positionI, positionJ);
+        gameGrid.getChildren().set(position, gb);
     }
 
     /**
