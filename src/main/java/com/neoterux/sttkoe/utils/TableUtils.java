@@ -30,7 +30,7 @@ public final class TableUtils {
         int row = table.length;
         int col = table[0].length;
         GridButton[][] copyMatrix = new GridButton[row][col];
-        matrixIter(table,(item, r, c) -> copyMatrix[r][c] = item.copy());
+        matrixIter(table,(item, r, c) -> copyMatrix[r][c] = (item == null)? null: item.copy());
         return copyMatrix;
     }
     
