@@ -6,7 +6,6 @@ import com.neoterux.sttkoe.models.tree.Tree;
 import com.neoterux.sttkoe.models.tree.TreeComparator;
 import com.neoterux.sttkoe.models.tree.TreeNode;
 import com.neoterux.sttkoe.utils.TableUtils;
-import javafx.scene.Node;
 import javafx.scene.layout.GridPane;
 import lombok.Getter;
 import lombok.Setter;
@@ -57,8 +56,7 @@ public class GameValidator {
         GridButton[][] gb = new GridButton[3][3];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                Node node = gp.getChildren().get(3*i + j + 1);
-                System.out.println(node);
+                gb[i][j]  = (GridButton) gp.getChildren().get(3*i + j);
             }
         }
         return gb;
@@ -70,13 +68,13 @@ public class GameValidator {
         int count = 0;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                count++;
                 GridButton[][] gb = TableUtils.copyTable(newGB);
                 Table table = new Table(fillGridPaneWithGridButtons(new GridPane(), gb));
                 if (gb[i][j].currentSymbol() == null) {
                     table.insertValue(count, symbol);
                     pq.add(new Tree<>(new TreeNode<>(table)));
                 }
+                count++;
             }
         }
         return pq;

@@ -47,16 +47,15 @@ public class Table implements Comparable<Table> {
 
     private int utilityByRows(Symbol opponentSymbol){
         int count = 0;
-        for (int i = 1; i <= 7; i += 3) {
-            if (rowsAndColumns(opponentSymbol, i, 1))
-                count++;
+        for (int i = 0; i < 7; i += 3) {
+            if (rowsAndColumns(opponentSymbol, i, 1)) count++;
         }
         return count;
     }
 
     private int utilityByColumns(Symbol opponentSymbol){
         int count = 0;
-        for (int i = 1; i <= 3; i++) {
+        for (int i = 0; i < 3; i++) {
             if (rowsAndColumns(opponentSymbol, i, 3))
                 count++;
         }
@@ -64,10 +63,10 @@ public class Table implements Comparable<Table> {
     }
 
     private int utilityByDiagonals(Symbol opponentSymbol){
-        if(getSymbolGridButton(5) == opponentSymbol) return 0;
+        if(getSymbolGridButton(4) == opponentSymbol) return 0;
         int count = 0;
-        if(getSymbolGridButton(1) != opponentSymbol && getSymbolGridButton(9) != opponentSymbol) count++;
-        if(getSymbolGridButton(3) != opponentSymbol && getSymbolGridButton(7) != opponentSymbol) count++;
+        if(getSymbolGridButton(0) != opponentSymbol && getSymbolGridButton(8) != opponentSymbol) count++;
+        if(getSymbolGridButton(2) != opponentSymbol && getSymbolGridButton(6) != opponentSymbol) count++;
         return count;
     }
     
@@ -128,7 +127,7 @@ public class Table implements Comparable<Table> {
      * Printing the table
      */
     public void printTable(){
-        for (int i = 1; i < 10; i++) {
+        for (int i = 0; i < 9; i++) {
             GridButton gb = (GridButton) gameGrid.getChildren().get(i);
             System.out.println(gb.currentSymbol());
         }

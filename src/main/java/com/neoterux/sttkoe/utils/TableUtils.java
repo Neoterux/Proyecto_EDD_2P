@@ -1,8 +1,6 @@
 package com.neoterux.sttkoe.utils;
 
 import com.neoterux.sttkoe.custom.controls.GridButton;
-import com.neoterux.sttkoe.models.table.Table;
-import com.neoterux.sttkoe.models.tree.Tree;
 import javafx.scene.layout.GridPane;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -70,9 +68,5 @@ public final class TableUtils {
                 matrix[i][j] = fillAction.apply(i,j);
             }
         }
-    }
-
-    public static Tree<Table> childenByUtility(Tree<Table> tree){
-        return tree.getRoot().getChildren().peek();
     }
 }
