@@ -58,8 +58,6 @@ public class GameViewController implements Initializable {
 //        txtModalidad.setText(txtModalidad.getText()+" "+modo.getText());
         // TODO: Create a label with the current player and pass into GameControls
         this.controls = new GameControls(gameGrid,null);
-        manager.fillGrid(gameGrid);
-        manager.init(controls);
         //TODO: Lock Table, or do something to prevent playing on the Validation Listener.
         manager.setValidationListener(new GameValidationListener() {
             @Override
@@ -77,6 +75,8 @@ public class GameViewController implements Initializable {
                 new Alert(Alert.AlertType.CONFIRMATION,"Es un empate :p", ButtonType.OK).show();
             }
         });
+        manager.fillGrid(gameGrid);
+        manager.init(controls);
 
         gameTable = new Table(gameGrid);
         gameTree = new Tree<>(new TreeNode<>(gameTable));

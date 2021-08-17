@@ -1,6 +1,7 @@
 package com.neoterux.sttkoe.game.core;
 
 import com.neoterux.sttkoe.custom.controls.GridButton;
+import com.neoterux.sttkoe.game.core.listeners.AiChangeDetectedListener;
 import com.neoterux.sttkoe.game.core.listeners.GameValidationListener;
 import com.neoterux.sttkoe.models.players.Player;
 import com.neoterux.sttkoe.models.players.PlayerSequence;
@@ -11,6 +12,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.layout.GridPane;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -52,6 +54,11 @@ public class GameManager {
     
     private GameDeterminator determinator;
     
+    /**
+     * Creates a new Game Manager with the specified GameMode.
+     *
+     * @param mode the mode of the current game.
+     */
     public GameManager(GameMode mode){
         this.gameMode = mode;
         this.turn = new PlayerSequence(players());
@@ -70,12 +77,11 @@ public class GameManager {
     }
     
     private void fillMatrix(FillAction<GridButton> action){
-        log.debug("filling matrix...");
+        log.debug("filling matrix and setting up grid buttons...");
         matrixIterFiller(ttbuttons, (row, col) ->{
             GridButton button = new GridButton();
             button.fillAllGrid();
             button.setOnAction(event-> {
-                log.debug("Button clicked on row: {}, col: {}", row, col);
                 if (verifySelection(button)) {
                     validateState();
                     turn.nextPlayer();
@@ -88,8 +94,13 @@ public class GameManager {
         log.debug("End of filling");
         this.determinator = GameDeterminator.of(ttbuttons);
     }
-
-    public void init(GameControls uiControls) {
+    
+    /**
+     * Configures the ui Controls.
+     *
+     * @param uiControls the ui controls that this GameManager would work
+     */
+    public void init (@NotNull GameControls uiControls) {
         log.info("Initializing game settings");
         this.ui = uiControls;
     }
@@ -99,15 +110,18 @@ public class GameManager {
         if (validationListener != null){
             log.info("Validating...");
             if (determinator.validateFor(turn.getCurrent())) {
+                log.info("Winner determined");
                 validationListener.doOnWin(turn.getCurrent());
                 return;
             }
             if (ui.tableIsFull())
                 validationListener.doOnTie();
         }
-        
     }
     
+    /**
+     * Write into the label the current player turn.
+     */
     private void writeCurrentTurn() {
         if (ui != null)
             ui.setCurrentPlayer(turn.getCurrent());
@@ -149,8 +163,12 @@ public class GameManager {
             throw new IllegalStateException("Selected player cannot be null");
         }
     }
-
-
+    
+    /**
+     * Gets an array with the reference of the 2 involved players.
+     *
+     * @return an array with players
+     */
     private Player[] players() {
         Player[] players = new Player[2];
         players[0] = gameMode.turnManager.getVisitorPlayer();
@@ -166,7 +184,4 @@ public class GameManager {
         this.aiListener = aiListener;
     }
     
-    public interface AiChangeDetectedListener {
-        void doOnChange();
-    }
 }

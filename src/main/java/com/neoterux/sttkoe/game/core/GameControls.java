@@ -105,7 +105,14 @@ public final class GameControls {
     public boolean tableIsFull(){
         if (table == null)
             return true;
-        return playedButtonCount == table.getChildren().size();
+        boolean allHaveSymbols = true;
+        for(Node button : table.getChildren()){
+            GridButton btn = (GridButton) button;
+            allHaveSymbols = !btn.isBlank();
+            if(!allHaveSymbols)
+                break;
+        }
+        return allHaveSymbols;
     }
     
     /**
