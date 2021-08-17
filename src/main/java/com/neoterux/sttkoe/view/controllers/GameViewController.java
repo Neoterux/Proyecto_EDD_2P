@@ -1,5 +1,6 @@
 package com.neoterux.sttkoe.view.controllers;
 
+import com.neoterux.sttkoe.custom.controls.GridButton;
 import com.neoterux.sttkoe.game.GameValidator;
 import com.neoterux.sttkoe.game.core.GameControls;
 import com.neoterux.sttkoe.game.core.GameManager;
@@ -34,7 +35,7 @@ public class GameViewController implements Initializable {
      * The manager that would hold the turn logic.
      */
     private GameManager manager;
-    private GameValidator gm;
+    private GameValidator gv;
 
     private Tree<Table> gameTree;
     private Table gameTable;
@@ -47,9 +48,9 @@ public class GameViewController implements Initializable {
     public GameViewController(GameManager manager){
         this.manager = manager;
     }
-    public GameViewController(GameManager manager, GameValidator gm){
+    public GameViewController(GameManager manager, GameValidator gv){
         this.manager = manager;
-        this.gm = gm;
+        this.gv = gv;
     }
 
     @Override
@@ -78,12 +79,36 @@ public class GameViewController implements Initializable {
         manager.fillGrid(gameGrid);
         manager.init(controls);
 
-        gameTable = new Table(gameGrid);
-        gameTree = new Tree<>(new TreeNode<>(gameTable));
-        gm.setTree(gameTree);
-        gm.initializeTree();
 
-        gm.getBestOption().getRoot().getContent().printTable();
+
+        manager.setAiListener(new GameManager.AiChangeDetectedListener() {
+            @Override
+            public void doOnChange(GameControls ui, Player ai) {
+                GridPane gridPane = ui.getTable();
+                gameTable = new Table(gridPane);
+                gameTree = new Tree<>(new TreeNode<>(gameTable));
+                gv.setTree(gameTree);
+                gv.initializeTree();
+                GridPane newGridPane = gv.getBestOption().getTable();
+
+                int index = getIndex(newGridPane, gridPane);
+
+                ui.selectButtonBy(ai, index/3, index - 3*(index/3));
+            }
+        });
+
+    }
+
+    private int getIndex(GridPane newGP, GridPane GP){
+        int index = 0;
+        for (int i = 0; i < 9; i++) {
+            GridButton GB = (GridButton) GP.getChildren().get(i);
+            GridButton newGB = (GridButton) newGP.getChildren().get(i);
+            if(GB.currentSymbol() != newGB.currentSymbol()){
+                index = i;
+            }
+        }
+        return index;
     }
 
     void metodoListener(ActionEvent comenzarJuego){

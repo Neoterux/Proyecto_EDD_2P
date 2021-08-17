@@ -1,7 +1,6 @@
 package com.neoterux.sttkoe.game.core;
 
 import com.neoterux.sttkoe.custom.controls.GridButton;
-import com.neoterux.sttkoe.game.core.listeners.AiChangeDetectedListener;
 import com.neoterux.sttkoe.game.core.listeners.GameValidationListener;
 import com.neoterux.sttkoe.models.players.Player;
 import com.neoterux.sttkoe.models.players.PlayerSequence;
@@ -12,7 +11,6 @@ import javafx.scene.control.Dialog;
 import javafx.scene.layout.GridPane;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -66,7 +64,7 @@ public class GameManager {
         this.turn.setChangeListener((newPlayer) -> {
             writeCurrentTurn();
             if (newPlayer.isCpu() && aiListener != null)
-                aiListener.doOnChange();
+                aiListener.doOnChange(ui, turn.getCurrent());
         });
     }
     
@@ -117,6 +115,7 @@ public class GameManager {
             if (ui.tableIsFull())
                 validationListener.doOnTie();
         }
+        
     }
     
     /**
@@ -184,4 +183,7 @@ public class GameManager {
         this.aiListener = aiListener;
     }
     
+    public interface AiChangeDetectedListener {
+        void doOnChange(GameControls ui, Player ai);
+    }
 }

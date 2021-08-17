@@ -116,7 +116,7 @@ public class GameValidator {
      * Getting the best movement to the computer
      * @return A tree with the best movement
      */
-    public Tree<Table> getBestOption(){
-        return tree.getChildrenByUtility();
+    public Table getBestOption(){
+        return tree.getChildrenByUtility().getRoot().getContent();
     }
 }
