@@ -59,7 +59,7 @@ public class GameManager {
         this.turn.setChangeListener((newPlayer) -> {
             writeCurrentTurn();
             if (newPlayer.isCpu() && aiListener != null)
-                aiListener.doOnChange();
+                aiListener.doOnChange(ui, turn.getCurrent());
         });
     }
     
@@ -167,6 +167,6 @@ public class GameManager {
     }
     
     public interface AiChangeDetectedListener {
-        void doOnChange();
+        void doOnChange(GameControls ui, Player ai);
     }
 }

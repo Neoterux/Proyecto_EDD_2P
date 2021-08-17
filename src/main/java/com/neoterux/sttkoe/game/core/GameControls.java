@@ -22,6 +22,7 @@ public final class GameControls {
     /**
      * The table of the game
      */
+    @Getter
     private final GridPane table;
     
     /**
