@@ -4,6 +4,7 @@ import com.neoterux.sttkoe.custom.controls.GridButton;
 import com.neoterux.sttkoe.game.GameValidator;
 import com.neoterux.sttkoe.game.core.GameControls;
 import com.neoterux.sttkoe.game.core.GameManager;
+import com.neoterux.sttkoe.game.core.listeners.AiChangeDetectedListener;
 import com.neoterux.sttkoe.game.core.listeners.GameValidationListener;
 import com.neoterux.sttkoe.models.players.Player;
 import com.neoterux.sttkoe.models.table.Table;
@@ -76,12 +77,8 @@ public class GameViewController implements Initializable {
                 new Alert(Alert.AlertType.CONFIRMATION,"Es un empate :p", ButtonType.OK).show();
             }
         });
-        manager.fillGrid(gameGrid);
-        manager.init(controls);
-
-
-
-        manager.setAiListener(new GameManager.AiChangeDetectedListener() {
+        
+        manager.setAiListener(new AiChangeDetectedListener() {
             @Override
             public void doOnChange(GameControls ui, Player ai) {
                 GridPane gridPane = ui.getTable();
@@ -94,9 +91,11 @@ public class GameViewController implements Initializable {
                 int index = getIndex(newGridPane, gridPane);
 
                 ui.selectButtonBy(ai, index/3, index - 3*(index/3));
+                manager.forceNextPlayer();
             }
         });
-
+        manager.fillGrid(gameGrid);
+        manager.init(controls);
     }
 
     private int getIndex(GridPane newGP, GridPane GP){

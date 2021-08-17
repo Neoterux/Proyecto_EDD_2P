@@ -2,6 +2,7 @@ package com.neoterux.sttkoe.game.core;
 
 import com.neoterux.sttkoe.custom.controls.GridButton;
 import com.neoterux.sttkoe.models.players.Player;
+import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
@@ -95,6 +96,8 @@ public final class GameControls {
             return false;
         desired.setAsociatedPlayer(player);
         desired.setSymbol(player.getPlayerSymbol());
+        if(player.isCpu())
+            desired.fireEvent(new ActionEvent());
         return true;
     }
     

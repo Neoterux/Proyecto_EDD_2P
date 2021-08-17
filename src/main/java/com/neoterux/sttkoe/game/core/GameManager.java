@@ -1,9 +1,11 @@
 package com.neoterux.sttkoe.game.core;
 
 import com.neoterux.sttkoe.custom.controls.GridButton;
+import com.neoterux.sttkoe.game.core.listeners.AiChangeDetectedListener;
 import com.neoterux.sttkoe.game.core.listeners.GameValidationListener;
 import com.neoterux.sttkoe.models.players.Player;
 import com.neoterux.sttkoe.models.players.PlayerSequence;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
@@ -11,8 +13,10 @@ import javafx.scene.control.Dialog;
 import javafx.scene.layout.GridPane;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import static com.neoterux.sttkoe.utils.TableUtils.matrixIterFiller;
@@ -101,6 +105,7 @@ public class GameManager {
     public void init (@NotNull GameControls uiControls) {
         log.info("Initializing game settings");
         this.ui = uiControls;
+        verifyIfIAStart();
     }
     
     private void validateState() {
@@ -116,6 +121,15 @@ public class GameManager {
                 validationListener.doOnTie();
         }
         
+    }
+    
+    private void verifyIfIAStart(){
+        if(turn.currentIsCpu()){
+            Random rd = new Random();
+            int row = rd.nextInt(3);
+            int col = rd.nextInt(3);
+            this.ttbuttons[row][col].fireEvent(new ActionEvent());
+        }
     }
     
     /**
@@ -163,6 +177,11 @@ public class GameManager {
         }
     }
     
+    public void forceNextPlayer(){
+        validateState();
+        this.turn.nextPlayer();
+    }
+    
     /**
      * Gets an array with the reference of the 2 involved players.
      *
@@ -181,9 +200,5 @@ public class GameManager {
     
     public void setAiListener (AiChangeDetectedListener aiListener) {
         this.aiListener = aiListener;
-    }
-    
-    public interface AiChangeDetectedListener {
-        void doOnChange(GameControls ui, Player ai);
     }
 }
