@@ -17,33 +17,35 @@ import java.util.PriorityQueue;
 @Setter
 public class GameValidator {
     private Tree<Table> tree;
-    
+
     /**
      * The symbol that the cpu would use
      */
     private Symbol computerSymbol;
-    
+
     /**
      * The symbol of the player
      */
     private Symbol userSymbol;
-    
+
     /**
      * A comparator that have the natural order of a table
      */
     private static final TreeComparator<Table> naturalComparator = Table::compareTo;
-    
+
     /**
      * A comparator that is the inverse of the {@link #naturalComparator}.
      */
     private static final TreeComparator<Table> descComparator = (t1, t2) -> t2.compareTo(t1);
 
-    public GameValidator (Tree<Table> tree){
+    public GameValidator(Tree<Table> tree) {
         this.tree = tree;
     }
-    public GameValidator(){}
 
-    private GridPane fillGridPaneWithGridButtons(GridPane gp, GridButton[][] gb){
+    public GameValidator() {
+    }
+
+    private GridPane fillGridPaneWithGridButtons(GridPane gp, GridButton[][] gb) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 gp.add(gb[i][j], j, i);
@@ -52,17 +54,17 @@ public class GameValidator {
         return gp;
     }
 
-    private GridButton[][] getGridButtonOfGridPane(GridPane gp){
+    private GridButton[][] getGridButtonOfGridPane(GridPane gp) {
         GridButton[][] gb = new GridButton[3][3];
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                gb[i][j]  = (GridButton) gp.getChildren().get(3*i + j);
+                gb[i][j] = (GridButton) gp.getChildren().get(3 * i + j);
             }
         }
         return gb;
     }
 
-    private PriorityQueue<Tree<Table>> generateChildren(Symbol symbol, Comparator<Tree<Table>> cmp, Tree<Table> tree){
+    private PriorityQueue<Tree<Table>> generateChildren(Symbol symbol, Comparator<Tree<Table>> cmp, Tree<Table> tree) {
         PriorityQueue<Tree<Table>> pq = new PriorityQueue<>(cmp);
         GridButton[][] newGB = getGridButtonOfGridPane(tree.getRoot().getContent().getTable());
         int count = 0;
@@ -84,10 +86,10 @@ public class GameValidator {
      * Reorder the children by the given comparator, and append to the movement tree.
      *
      * @param movements the movements to order.
-     * @param movement the tree where the movements would be appended.
-     * @param cmp the comparator to order the movements
+     * @param movement  the tree where the movements would be appended.
+     * @param cmp       the comparator to order the movements
      */
-    private void fixingChildren(PriorityQueue<Tree<Table>> movements, Tree<Table> movement, Comparator<Tree<Table>> cmp){
+    private void fixingChildren(PriorityQueue<Tree<Table>> movements, Tree<Table> movement, Comparator<Tree<Table>> cmp) {
         PriorityQueue<Tree<Table>> finalMovements = new PriorityQueue<>(cmp);
         finalMovements.addAll(movements);
 
@@ -97,26 +99,31 @@ public class GameValidator {
     /**
      * Creates a tree to initialize with actual status
      */
-    public void initializeTree(){
+    public void initializeTree() {
         PriorityQueue<Tree<Table>> machineMovements = generateChildren(computerSymbol, descComparator, this.tree);
-        for (Tree<Table> machM: machineMovements) {
-            PriorityQueue<Tree<Table>> userMovements = generateChildren(userSymbol, naturalComparator, machM);
-            for (Tree<Table> userM: userMovements) {
-                userM.getRoot().getContent().generateUtility(computerSymbol, userSymbol);
-            }
-            fixingChildren(userMovements, machM, naturalComparator);
 
-            Tree<Table> bestOption = machM.getChildrenByUtility();
-            machM.getRoot().getContent().setUtility(bestOption.getRoot().getContent().getUtility());
-        }
-        fixingChildren(machineMovements, this.tree, descComparator);
+            for (Tree<Table> machM : machineMovements) {
+                if(machineMovements.size() > 1) {
+                    PriorityQueue<Tree<Table>> userMovements = generateChildren(userSymbol, naturalComparator, machM);
+                    for (Tree<Table> userM : userMovements) {
+                        userM.getRoot().getContent().generateUtility(computerSymbol, userSymbol);
+                    }
+                    fixingChildren(userMovements, machM, naturalComparator);
+
+                    Tree<Table> bestOption = machM.getChildrenByUtility();
+                    machM.getRoot().getContent().setUtility(bestOption.getRoot().getContent().getUtility());
+                }
+                machM.getRoot().getContent().generateUtility(computerSymbol, userSymbol);
+            }
+            fixingChildren(machineMovements, this.tree, descComparator);
     }
 
     /**
      * Getting the best movement to the computer
+     *
      * @return A tree with the best movement
      */
-    public Table getBestOption(){
+    public Table getBestOption() {
         return tree.getChildrenByUtility().getRoot().getContent();
     }
 }
