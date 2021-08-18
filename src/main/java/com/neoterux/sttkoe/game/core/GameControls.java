@@ -126,6 +126,18 @@ public final class GameControls {
         Stage gameStage = (Stage) this.table.getScene().getWindow();
         gameStage.close();
     }
+
+    public boolean isLocked() {
+        return this.table.isDisable();
+    }
+
+    public void lock() {
+        this.table.setDisable(true);
+    }
+
+    public void unlock() {
+        this.table.setDisable(false);
+    }
     
     
 }

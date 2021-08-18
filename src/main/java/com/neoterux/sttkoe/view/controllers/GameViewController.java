@@ -4,33 +4,42 @@ import com.neoterux.sttkoe.custom.controls.GridButton;
 import com.neoterux.sttkoe.game.GameValidator;
 import com.neoterux.sttkoe.game.core.GameControls;
 import com.neoterux.sttkoe.game.core.GameManager;
-import com.neoterux.sttkoe.game.core.listeners.AiChangeDetectedListener;
+import com.neoterux.sttkoe.game.core.GameMode;
 import com.neoterux.sttkoe.game.core.listeners.GameValidationListener;
 import com.neoterux.sttkoe.models.players.Player;
 import com.neoterux.sttkoe.models.table.Table;
 import com.neoterux.sttkoe.models.tree.Tree;
 import com.neoterux.sttkoe.models.tree.TreeNode;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
-
-import java.net.URL;
-import java.util.ResourceBundle;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import lombok.extern.slf4j.Slf4j;
 
+import java.net.URL;
+import java.util.Random;
+import java.util.ResourceBundle;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+@Slf4j(topic = "GameViewController")
 public class GameViewController implements Initializable {
 
     @FXML
     private Text txtModalidad;
+
+
+    private static final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
     
     @FXML
     private BorderPane borderPane;
@@ -61,14 +70,17 @@ public class GameViewController implements Initializable {
         this.manager = manager;
     }
     public GameViewController(GameManager manager, GameValidator gv){
+        log.debug("creating GameViewController");
         this.manager = manager;
         this.gv = gv;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-//        Text modo = new Text(String.valueOf(main.getChoicePlay()));
-//        txtModalidad.setText(txtModalidad.getText()+" "+modo.getText());
+        boolean isCpuVsCpu = manager.getGameMode() == GameMode.CVC;
+        final boolean[] existsWinner = {false};
+        log.debug("Playing on Cpu vs Cpu? {}", isCpuVsCpu);
+        Random rd = new Random();
         String mg = manager.getGameMode().gameModeName;
         borderPane.setStyle("-fx-background-color:#272727");
         
@@ -79,24 +91,19 @@ public class GameViewController implements Initializable {
         
         // TODO: Create a label with the current player and pass into GameControls
         this.controls = new GameControls(gameGrid, null);
-        //TODO: Lock Table, or do something to prevent playing on the Validation Listener.
+
         manager.setValidationListener(new GameValidationListener() {
             @Override
             public void doOnWin (Player winner) {
-                //new Alert(Alert.AlertType.CONFIRMATION,"Ganó: " + winner.getName(), ButtonType.OK).show();
                 Alert ventanaSalida = new Alert(Alert.AlertType.INFORMATION);
                 ventanaSalida.setTitle("FELICIDADES!");
                 ventanaSalida.setHeaderText(null);
-                ventanaSalida.setContentText("Ganó: " + winner.getName());
+                ventanaSalida.setContentText("Gano: " + winner.getName());
                 ventanaSalida.initStyle(StageStyle.UTILITY);
                 ventanaSalida.showAndWait();
+                existsWinner[0] = true;
                 
                 ((Stage) gameGrid.getScene().getWindow()).close();
-            }
-    
-            @Override
-            public void doOnLoose () {
-                
             }
     
             @Override
@@ -112,9 +119,13 @@ public class GameViewController implements Initializable {
             }
         });
         
-        manager.setAiListener(new AiChangeDetectedListener() {
-            @Override
-            public void doOnChange(GameControls ui, Player ai) {
+        manager.setAiListener((ui, ai) -> {
+            log.debug("THE BASILISK IS MOVING...");
+            if(existsWinner[0])
+                return;
+            ui.lock();
+            executor.schedule(() ->{
+
                 GridPane gridPane = ui.getTable();
                 gameTable = new Table(gridPane);
                 gameTree = new Tree<>(new TreeNode<>(gameTable));
@@ -123,10 +134,15 @@ public class GameViewController implements Initializable {
                 GridPane newGridPane = gv.getBestOption().getTable();
 
                 int index = getIndex(newGridPane, gridPane);
+                Platform.runLater(()-> {
+                    ui.selectButtonBy(ai, index/3, index - 3*(index/3));
+                    manager.forceNextPlayer();
+                    if(!isCpuVsCpu) ui.unlock();
+                    log.debug("FINISHING BASILISK MOVE...");
+                });
 
-                ui.selectButtonBy(ai, index/3, index - 3*(index/3));
-                manager.forceNextPlayer();
-            }
+
+            },500 + rd.nextInt(100) , TimeUnit.MILLISECONDS);
         });
         manager.fillGrid(gameGrid);
         manager.init(controls);

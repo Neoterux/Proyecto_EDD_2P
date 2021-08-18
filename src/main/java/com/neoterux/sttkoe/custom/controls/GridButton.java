@@ -120,9 +120,13 @@ public class GridButton extends Button {
     public boolean equals (Object obj) {
         if (obj == this)
             return true;
+        if (obj == null)
+            return false;
         if (obj instanceof GridButton){
             GridButton temp = (GridButton) obj;
-            return temp.currentSymbol() == this.currentSymbol() && asociatedPlayer.equals(temp.asociatedPlayer);
+            boolean hasAssociated = asociatedPlayer != null && temp.asociatedPlayer != null;
+            boolean equalsAssoc = !hasAssociated || this.asociatedPlayer.equals(temp.asociatedPlayer);
+            return temp.currentSymbol() == this.currentSymbol() && equalsAssoc;
         }
         return false;
     }
