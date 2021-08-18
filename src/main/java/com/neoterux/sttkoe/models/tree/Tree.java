@@ -14,11 +14,6 @@ public class Tree<V> {
     private TreeNode<V> root;
 
     /**
-     * FIXME: describe what is this field, and what it's use
-     */
-    private boolean isUsed;
-
-    /**
      * Creates a new Tree with the specified root value.
      *
      * @param rootContent the value of the root.
@@ -50,22 +45,6 @@ public class Tree<V> {
      */
     public void setRoot(TreeNode<V> root) {
         this.root = root;
-    }
-
-    /**
-     * Sets if this tree is used.
-     *
-     * @param used the used values
-     */
-    public void setIsUsed(boolean used) {
-        isUsed = used;
-    }
-
-    /**
-     * @return true if the tree is used.
-     */
-    public boolean isUsed(){
-        return isUsed;
     }
 
     public TreeNode<V> getRoot() {
