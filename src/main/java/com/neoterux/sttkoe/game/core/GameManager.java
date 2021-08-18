@@ -20,6 +20,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 import static com.neoterux.sttkoe.utils.TableUtils.matrixIterFiller;
+import lombok.Getter;
 
 /**
  * This class has the responsibility to handler the game turn, and other aspects.
@@ -32,7 +33,7 @@ public class GameManager {
     /**
      * The game mode configuration of the current game
      */
-    private final GameMode gameMode;
+    @Getter private final GameMode gameMode;
 
     /**
      * The grid of buttons of the game

@@ -5,20 +5,11 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="846.0" stylesheets="@../css/game.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neoterux.sttkoe.view.controllers.GameViewController">
-   <top>
-      <Text fx:id="txtModalidad" strokeType="OUTSIDE" strokeWidth="0.0" text="MODALIDAD: " textAlignment="CENTER" wrappingWidth="337.38671875" BorderPane.alignment="CENTER">
-         <font>
-            <Font name="Colonna MT" size="30.0" />
-         </font>
-         <BorderPane.margin>
-            <Insets top="10.0" />
-         </BorderPane.margin>
-      </Text>
-   </top>
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="623.0" prefWidth="846.0" stylesheets="@../css/game.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.neoterux.sttkoe.view.controllers.GameViewController">
    <center>
       <GridPane fx:id="gameGrid" alignment="CENTER" maxHeight="400.0" maxWidth="400.0" minHeight="-Infinity" minWidth="-Infinity" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -36,4 +27,18 @@
          </BorderPane.margin>
       </GridPane>
    </center>
+   <top>
+      <VBox fx:id="vBoxModalidad" alignment="TOP_CENTER" prefHeight="66.0" prefWidth="846.0" BorderPane.alignment="CENTER">
+         <children>
+            <Text fx:id="txtModalidad" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="MODALIDAD: " textAlignment="CENTER" wrappingWidth="337.38671875">
+               <font>
+                  <Font name="Colonna MT" size="30.0" />
+               </font>
+            </Text>
+         </children>
+         <BorderPane.margin>
+            <Insets top="10.0" />
+         </BorderPane.margin>
+      </VBox>
+   </top>
 </BorderPane>

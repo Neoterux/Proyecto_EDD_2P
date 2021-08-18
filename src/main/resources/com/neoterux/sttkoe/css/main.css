@@ -2,3 +2,7 @@
     -fx-background-image: url("../images/main_background.png");
     -fx-background-position: 0, 0;
 }
+
+.combo-box {
+    -fx-background-color : green;
+}

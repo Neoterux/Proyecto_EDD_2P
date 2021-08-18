@@ -20,12 +20,23 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class GameViewController implements Initializable {
 
     @FXML
     private Text txtModalidad;
     
+    @FXML
+    private BorderPane borderPane;
+    
+    @FXML
+    private VBox vBoxModalidad;
     /**
      * The grid that hold the tik tak toe game.
      */
@@ -58,23 +69,46 @@ public class GameViewController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 //        Text modo = new Text(String.valueOf(main.getChoicePlay()));
 //        txtModalidad.setText(txtModalidad.getText()+" "+modo.getText());
+        String mg = manager.getGameMode().gameModeName;
+        borderPane.setStyle("-fx-background-color:#272727");
+        
+        Text modalidad = new Text(String.valueOf(mg));
+        modalidad.setFill(Color.WHITE);
+        modalidad.setFont(new Font("Colonna MT",30));
+        vBoxModalidad.getChildren().add(modalidad);
+        
         // TODO: Create a label with the current player and pass into GameControls
-        this.controls = new GameControls(gameGrid,null);
+        this.controls = new GameControls(gameGrid, null);
         //TODO: Lock Table, or do something to prevent playing on the Validation Listener.
         manager.setValidationListener(new GameValidationListener() {
             @Override
             public void doOnWin (Player winner) {
-                new Alert(Alert.AlertType.CONFIRMATION,"GanÃ³: " + winner.getName(), ButtonType.OK).show();
+                //new Alert(Alert.AlertType.CONFIRMATION,"Ganó: " + winner.getName(), ButtonType.OK).show();
+                Alert ventanaSalida = new Alert(Alert.AlertType.INFORMATION);
+                ventanaSalida.setTitle("FELICIDADES!");
+                ventanaSalida.setHeaderText(null);
+                ventanaSalida.setContentText("Ganó: " + winner.getName());
+                ventanaSalida.initStyle(StageStyle.UTILITY);
+                ventanaSalida.showAndWait();
+                
+                ((Stage) gameGrid.getScene().getWindow()).close();
             }
     
             @Override
             public void doOnLoose () {
-        
+                
             }
     
             @Override
             public void doOnTie () {
-                new Alert(Alert.AlertType.CONFIRMATION,"Es un empate :p", ButtonType.OK).show();
+                Alert ventanaSalida = new Alert(Alert.AlertType.INFORMATION);
+                ventanaSalida.setTitle("FELICIDADES!");
+                ventanaSalida.setHeaderText(null);
+                ventanaSalida.setContentText("Es un empate. Mejor suerte para la proxima :p");
+                ventanaSalida.initStyle(StageStyle.UTILITY);
+                ventanaSalida.showAndWait();
+                
+                ((Stage) gameGrid.getScene().getWindow()).close();
             }
         });
         
