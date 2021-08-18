@@ -31,57 +31,75 @@ import java.util.ResourceBundle;
  * @author Neoterux
  */
 public class MainViewController implements Initializable {
-
+    
+    /**
+     * The choice box that contains the Game modes
+     */
     @FXML
     private ChoiceBox<GameMode> choicePlay;
-
+    
     @FXML
     private Text txtSymbol;
 
     @FXML
     private Text txtSymbolOponent;
-
+    
+    /**
+     * The choice box that contains the symbol for the first player
+     */
     @FXML
     private ChoiceBox<Symbol> symbolPlayer;
-
+    
+    /**
+     * The choice box that contains the symbol for the second player
+     */
     @FXML
     private ChoiceBox<Symbol> symbolEnemy;
     
+    /**
+     * The background of the principal pane
+     */
     @FXML
     private ImageView imgBackground;
     
+    /**
+     * The root pane of the stage.
+     */
     @FXML
     private Pane root;
-
-//    public ChoiceBox<String> getChoicePlay() {
-//        return choicePlay;
-//    }
-
-//    public ChoiceBox<String> getSymbolPlayer() {
-//        return symbolPlayer;
-//    }
-//
-//    public ChoiceBox<String> getSymbolEnemy() {
-//        return symbolEnemy;
-//    }
-    Symbol playerSymbol(){
+    
+    /**
+     * The button that starts the game
+     */
+    @FXML
+    private Button btnInicio;
+    private Symbol playerSymbol(){
         return this.symbolPlayer.getValue();
     }
     
-    Symbol enemySymbol() {
+    private Symbol enemySymbol() {
         return this.symbolEnemy.getValue();
     }
     
+    /**
+     * Gets the current window of the view.
+     *
+     * @return the windows of the view
+     */
     private Window currentWindow() {
         return this.btnInicio.getScene().getWindow();
     }
     
+    /**
+     * Gets the current stage of this view
+     *
+     * @return the stage of this view.
+     */
     private Stage currentStage(){
         return (Stage) currentWindow();
     }
 
-    @FXML
-    private Button btnInicio;
+    
 
     @FXML
     void ComenzarJuego(ActionEvent event) throws IOException {
@@ -105,12 +123,8 @@ public class MainViewController implements Initializable {
     }
 
     void metodoListener(ActionEvent comenzarJuego){
-        System.out.println("hola mundo");
         symbolEnemy.setDisable(false);
         symbolPlayer.setDisable(false);
-        System.out.println(txtSymbol);
-        // txtSymbol.setDisable(false);
-        // txtSymbolOponent.setDisable(false);
     }
     
     void interchangeSymbol(ActionEvent event){

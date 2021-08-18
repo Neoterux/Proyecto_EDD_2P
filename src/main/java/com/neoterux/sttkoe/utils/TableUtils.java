@@ -3,7 +3,6 @@ package com.neoterux.sttkoe.utils;
 import com.neoterux.sttkoe.custom.controls.GridButton;
 import javafx.scene.layout.GridPane;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BiFunction;
 
@@ -11,11 +10,14 @@ public final class TableUtils {
     
     private TableUtils(){}
     
-    @Nullable
+    
     public static GridButton[][] copyTable (@NotNull GridPane table){
         GridButton[][] copy = new GridButton[3][3];
-        
-        return null;
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++) {
+                copy[i][j] = (GridButton) table.getChildren().get(3 * i + j);
+            }
+        return copy;
     }
     
     /**
@@ -28,7 +30,7 @@ public final class TableUtils {
         int row = table.length;
         int col = table[0].length;
         GridButton[][] copyMatrix = new GridButton[row][col];
-        matrixIter(table,(item, r, c) -> copyMatrix[r][c] = item.copy());
+        matrixIter(table,(item, r, c) -> copyMatrix[r][c] = (item == null)? null: item.copy());
         return copyMatrix;
     }
     
@@ -68,6 +70,5 @@ public final class TableUtils {
                 matrix[i][j] = fillAction.apply(i,j);
             }
         }
-        
     }
 }

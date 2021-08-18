@@ -9,15 +9,31 @@ import org.jetbrains.annotations.NotNull;
  * This class contains the game table and its utility
  */
 public class Table implements Comparable<Table> {
+    /**
+     * The utility of the current table
+     */
     private int utility;
+
+    /**
+     * The grid of the tik tak toe game
+     */
     private GridPane gameGrid;
 
+    /**
+     * Creates a new Table by the given gameGrid.
+     *
+     * @param gameGrid the grid of the tik tak toe game
+     */
     public Table(GridPane gameGrid){
         this.gameGrid = gameGrid;
         this.utility = 0;
     }
+
+    /**
+     * Creates a new empty table
+     */
     public Table(){
-        this.utility = 0;
+        this(null);
     }
 
     private Symbol getSymbolGridButton(int i){
@@ -31,16 +47,15 @@ public class Table implements Comparable<Table> {
 
     private int utilityByRows(Symbol opponentSymbol){
         int count = 0;
-        for (int i = 1; i <= 7; i += 3) {
-            if (rowsAndColumns(opponentSymbol, i, 1))
-                count++;
+        for (int i = 0; i < 7; i += 3) {
+            if (rowsAndColumns(opponentSymbol, i, 1)) count++;
         }
         return count;
     }
 
     private int utilityByColumns(Symbol opponentSymbol){
         int count = 0;
-        for (int i = 1; i <= 3; i++) {
+        for (int i = 0; i < 3; i++) {
             if (rowsAndColumns(opponentSymbol, i, 3))
                 count++;
         }
@@ -48,10 +63,10 @@ public class Table implements Comparable<Table> {
     }
 
     private int utilityByDiagonals(Symbol opponentSymbol){
-        if(getSymbolGridButton(5) == opponentSymbol) return 0;
+        if(getSymbolGridButton(4) == opponentSymbol) return 0;
         int count = 0;
-        if(getSymbolGridButton(1) != opponentSymbol && getSymbolGridButton(9) != opponentSymbol) count++;
-        if(getSymbolGridButton(3) != opponentSymbol && getSymbolGridButton(7) != opponentSymbol) count++;
+        if(getSymbolGridButton(0) != opponentSymbol && getSymbolGridButton(8) != opponentSymbol) count++;
+        if(getSymbolGridButton(2) != opponentSymbol && getSymbolGridButton(6) != opponentSymbol) count++;
         return count;
     }
     
@@ -99,21 +114,20 @@ public class Table implements Comparable<Table> {
 
     /**
      * Inserts a value into the position
-     * @param positionI Index i in the GridPane
-     * @param positionJ Index j in the GridPane
+     * @param position Index i in the GridPane
      * @param value The value to be inserted
      */
-    public void insertValue(int positionI, int positionJ, Symbol value){
+    public void insertValue(int position, Symbol value){
         GridButton gb = new GridButton();
         gb.setSymbol(value);
-        gameGrid.add(gb, positionI, positionJ);
+        gameGrid.getChildren().set(position, gb);
     }
 
     /**
      * Printing the table
      */
     public void printTable(){
-        for (int i = 1; i < 10; i++) {
+        for (int i = 0; i < 9; i++) {
             GridButton gb = (GridButton) gameGrid.getChildren().get(i);
             System.out.println(gb.currentSymbol());
         }

@@ -20,7 +20,7 @@
       </Text>
    </top>
    <center>
-      <GridPane fx:id="gameGrid" alignment="CENTER" gridLinesVisible="true" maxHeight="400.0" maxWidth="400.0" minHeight="-Infinity" minWidth="-Infinity" BorderPane.alignment="CENTER">
+      <GridPane fx:id="gameGrid" alignment="CENTER" maxHeight="400.0" maxWidth="400.0" minHeight="-Infinity" minWidth="-Infinity" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" percentWidth="100.0" />
             <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" percentWidth="100.0" />
