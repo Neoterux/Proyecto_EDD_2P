@@ -130,6 +130,8 @@ public class GameManager {
             int row = rd.nextInt(3);
             int col = rd.nextInt(3);
             this.ttbuttons[row][col].fireEvent(new ActionEvent());
+        }else{
+            writeCurrentTurn();
         }
     }
     

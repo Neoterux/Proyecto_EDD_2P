@@ -24,6 +24,8 @@ import javafx.stage.Window;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.scene.control.Alert;
+import javafx.stage.StageStyle;
 
 /**
  * Controller for the main View
@@ -103,6 +105,15 @@ public class MainViewController implements Initializable {
 
     @FXML
     void ComenzarJuego(ActionEvent event) throws IOException {
+        if(playerSymbol() == null || choicePlay.getValue() == null){
+            Alert ventanaSalida = new Alert(Alert.AlertType.ERROR);
+            ventanaSalida.setTitle("ERROR");
+            ventanaSalida.setHeaderText(null);
+            ventanaSalida.setContentText("Seleccione todos los campos para empezar el juego");
+            ventanaSalida.initStyle(StageStyle.UTILITY);
+            ventanaSalida.showAndWait();
+            return;
+        }
         FXMLLoader loader = AppUtils.loaderFrom("view/game_view.fxml");
         GameMode selectedMode = choicePlay.getValue();
         GameManager cGamemanager = new GameManager(selectedMode);

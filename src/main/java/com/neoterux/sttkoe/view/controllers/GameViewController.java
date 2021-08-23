@@ -31,6 +31,7 @@ import java.util.ResourceBundle;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import javafx.scene.control.Label;
 
 @Slf4j(topic = "GameViewController")
 public class GameViewController implements Initializable {
@@ -39,7 +40,7 @@ public class GameViewController implements Initializable {
     private Text txtModalidad;
 
 
-    private static final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+    public static final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
     
     @FXML
     private BorderPane borderPane;
@@ -51,6 +52,9 @@ public class GameViewController implements Initializable {
      */
     @FXML
     private GridPane gameGrid;
+    
+    @FXML
+    private Label label;
     
     /**
      * The manager that would hold the turn logic.
@@ -90,7 +94,8 @@ public class GameViewController implements Initializable {
         vBoxModalidad.getChildren().add(modalidad);
         
         // TODO: Create a label with the current player and pass into GameControls
-        this.controls = new GameControls(gameGrid, null);
+        
+        this.controls = new GameControls(gameGrid, label);
 
         manager.setValidationListener(new GameValidationListener() {
             @Override

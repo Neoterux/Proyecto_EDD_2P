@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import static com.neoterux.sttkoe.utils.AppUtils.loadParent;
+import com.neoterux.sttkoe.view.controllers.GameViewController;
 
 /**
  * <h1>App</h1>
@@ -31,6 +32,14 @@ public final class App extends Application {
         Scene rootScene = new Scene(rootParent);
         primaryStage.setScene(rootScene);
         primaryStage.show();
+    }
+    
+    @Override
+    public void stop(){
+        try{
+            GameViewController.executor.shutdown();
+            super.stop();
+        } catch(Exception e){}
     }
 
     public static void main(String[] args) {
